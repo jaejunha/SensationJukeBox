@@ -1,5 +1,6 @@
 package com.github.sensation.sensationjukebox;
 
+import android.content.Intent;
 import android.graphics.Color;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -28,7 +29,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationChangeListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationChangeListener,
+                GoogleMap.OnMarkerClickListener{
 
     private GoogleMap mMap;
     private GoogleApiClient googleApiClient = null;
@@ -44,8 +46,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker currentMarker = null;
     private GoogleMap googleMap = null;
 
-    public static int langtitude = -34;
-    public static int longitude = 151;
+    double latitude = 0;
+    double longitude = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,16 +75,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.addMarker(new MarkerOptions().position(sydney).title("test"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationChangeListener(this);
+        mMap.setOnMarkerClickListener(this);
+        onAddMarker();
     }
 
 
     //마커 , 원추가
     public void onAddMarker() {
-        LatLng position = new LatLng(langtitude, longitude);
+        LatLng position = new LatLng(latitude, longitude);
 
         //나의위치 마커
         MarkerOptions mymarker = new MarkerOptions()
@@ -175,5 +179,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         double latitude=location.getLatitude();
         double longitude=location.getLongitude();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 18));
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Intent jump = new Intent(this, ListDetail.class);
+        startActivity(jump);
+        return false;
     }
 }
