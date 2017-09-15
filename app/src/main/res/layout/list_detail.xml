@@ -5,6 +5,14 @@
     android:layout_height="40dp"
     android:background="#ffffff">
     <TextView
+        android:id="@+id/textStory"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:text="사연 제목"/>
+    <TextView
+        android:id="@+id/textMusic"
         android:layout_marginLeft="10dp"
         android:layout_alignParentLeft="true"
         android:layout_width="50dp"

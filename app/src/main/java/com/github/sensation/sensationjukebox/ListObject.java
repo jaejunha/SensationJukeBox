@@ -6,5 +6,19 @@ package com.github.sensation.sensationjukebox;
 
 public class ListObject {
 
-    private String name;
+    private String story;
+    private String music;
+
+    public ListObject(String story, String music){
+        this.story = story;
+        this.music = music;
+    }
+
+    public String getStory(){
+        return story;
+    }
+
+    public String getMusic(){
+        return music;
+    }
 }
