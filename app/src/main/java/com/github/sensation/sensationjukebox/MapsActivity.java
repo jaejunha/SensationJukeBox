@@ -1,18 +1,41 @@
 package com.github.sensation.sensationjukebox;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+
+import android.location.Location;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.PlaceLikelihood;
+import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private GoogleApiClient googleApiClient = null;
+
+    private final static int MAXENTRIES = 5;
+    private static final LatLng DEFAULT_LOCATION = new LatLng(37.56, 126.97);
+
+    private String[] LikelyPlaceNames = null;
+    private String[] LikelyAddresses = null;
+    private String[] LikelyAttributions = null;
+    private LatLng[] LikelyLatLngs = null;
+
+    private Marker currentMarker = null;
+    private GoogleMap googleMap = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,5 +65,74 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+    public void onLocationChanged(Location location) {
+        searchCurrentPlaces();
+    }
+
+    private void searchCurrentPlaces() {
+        @SuppressWarnings("MissingPermission")
+        PendingResult<PlaceLikelihoodBuffer> result = Places.PlaceDetectionApi
+                .getCurrentPlace(googleApiClient, null);
+        result.setResultCallback(new ResultCallback<PlaceLikelihoodBuffer>(){
+
+            public void onResult(@NonNull PlaceLikelihoodBuffer placeLikelihoods) {
+                int i = 0;
+                LikelyPlaceNames = new String[MAXENTRIES];
+                LikelyAddresses = new String[MAXENTRIES];
+                LikelyAttributions = new String[MAXENTRIES];
+                LikelyLatLngs = new LatLng[MAXENTRIES];
+
+                for(PlaceLikelihood placeLikelihood : placeLikelihoods) {
+                    LikelyPlaceNames[i] = (String) placeLikelihood.getPlace().getName();
+                    LikelyAddresses[i] = (String) placeLikelihood.getPlace().getAddress();
+            //        LikelyAttributions[i] = (String) placeLikelihood.getPlace().getAttributions();
+                    LikelyLatLngs[i] = placeLikelihood.getPlace().getLatLng();
+
+                    i++;
+                    if(i > MAXENTRIES - 1 ) {
+                        break;
+                    }
+                }
+
+                placeLikelihoods.release();
+
+                Location location = new Location("");
+                location.setLatitude(LikelyLatLngs[0].latitude);
+                location.setLongitude(LikelyLatLngs[0].longitude);
+
+                setCurrentLocation(location, LikelyPlaceNames[0], LikelyAddresses[0]);
+            }
+        });
+    }
+    public void setCurrentLocation(Location location, String markerTitle, String markerSnippet) {
+        if ( currentMarker != null ) currentMarker.remove();
+
+        if ( location != null) {
+            //현재위치의 위도 경도 가져옴
+            LatLng currentLocation = new LatLng( location.getLatitude(), location.getLongitude());
+
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(currentLocation);
+            markerOptions.title(markerTitle);
+            markerOptions.snippet(markerSnippet);
+            markerOptions.draggable(true);
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            currentMarker = this.googleMap.addMarker(markerOptions);
+
+            this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
+            return;
+        }
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(DEFAULT_LOCATION);
+        markerOptions.title(markerTitle);
+        markerOptions.snippet(markerSnippet);
+        markerOptions.draggable(true);
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        currentMarker = this.googleMap.addMarker(markerOptions);
+
+        this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(DEFAULT_LOCATION));
     }
 }
