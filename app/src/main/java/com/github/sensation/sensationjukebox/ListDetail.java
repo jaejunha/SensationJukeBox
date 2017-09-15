@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public class ListDetail extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_detail);
 
         listView = (ListView)findViewById(R.id.listView);
         this.context = getApplicationContext();
@@ -56,9 +57,23 @@ public class ListDetail extends AppCompatActivity{
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            return null;
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            ViewHolder holder;
+            if (convertView == null) {
+                LayoutInflater inflater = LayoutInflater.from(context);
+                convertView = inflater.inflate(R.layout.list_detail, parent, false);
+                holder = new ViewHolder();
+                holder.textMusic = (TextView) convertView.findViewById(R.id.textMusic);
+                holder.textStory = (TextView) convertView.findViewById(R.id.textStory);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            return convertView;
         }
 
+        public class ViewHolder {
+            TextView textStory, textMusic;
+        }
     }
 }
