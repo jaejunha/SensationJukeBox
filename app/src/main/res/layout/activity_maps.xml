@@ -9,20 +9,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.github.sensation.sensationjukebox.MapsActivity" />
+
     <FrameLayout
         android:id="@+id/frameTop"
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_margin="10dp">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:background="#000000"
-            android:alpha="0.5" />
+            android:alpha="0.5"
+            android:background="#000000" />
+
         <TextView
-            android:textColor="#ffffff"
-            android:text="dfaasdfsfadasf"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="test"
+            android:id="@+id/setState"
+            android:textColor="#ffffff" />
     </FrameLayout>
 </FrameLayout>
