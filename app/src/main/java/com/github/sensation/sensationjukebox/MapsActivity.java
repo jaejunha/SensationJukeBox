@@ -1,14 +1,13 @@
 package com.github.sensation.sensationjukebox;
 
-<<<<<<< HEAD
 import android.graphics.Color;
-=======
+
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 
 import android.location.Location;
 import android.support.annotation.NonNull;
->>>>>>> devJun
+
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -20,11 +19,11 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-<<<<<<< HEAD
+
 import com.google.android.gms.maps.model.CircleOptions;
-=======
+
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
->>>>>>> devJun
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -78,10 +77,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
-<<<<<<< HEAD
+
     //마커 , 원추가
-    public void onAddMarker(){
-        LatLng position = new LatLng(langtitude , longitude);
+    public void onAddMarker() {
+        LatLng position = new LatLng(langtitude, longitude);
 
         //나의위치 마커
         MarkerOptions mymarker = new MarkerOptions()
@@ -98,7 +97,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //원추가
         this.mMap.addCircle(circle1KM);
-=======
+    }
+
     public void onLocationChanged(Location location) {
         searchCurrentPlaces();
     }
@@ -166,6 +166,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         currentMarker = this.googleMap.addMarker(markerOptions);
 
         this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(DEFAULT_LOCATION));
->>>>>>> devJun
     }
 }
