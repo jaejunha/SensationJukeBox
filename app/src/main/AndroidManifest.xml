@@ -38,13 +38,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MapsActivity"
             android:excludeFromRecents="true"
             android:screenOrientation="portrait"
             android:taskAffinity=":MapsActivity" />
-        <activity android:name=".ListDetail"/>
+        <activity android:name=".ListDetail" />
+        <activity android:name=".StoryEdit"></activity>
     </application>
 
 </manifest>
