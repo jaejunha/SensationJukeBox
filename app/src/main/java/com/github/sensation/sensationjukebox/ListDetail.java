@@ -26,6 +26,10 @@ import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -46,7 +50,6 @@ public class ListDetail extends AppCompatActivity {
     private ArrayList<StoryItem> storyItemArrayList;
     private StoryListAdpater storyListAdpater;
     private Context context;
-    private Button buttonUp;
     private Button buttonPlay;
     private LinearLayout layoutDetail;
     private FloatingActionButton fab;
@@ -61,6 +64,14 @@ public class ListDetail extends AppCompatActivity {
     static boolean threadrunning = true;
     boolean isbind = false;
 
+    private String[] storysub;
+    private String[] storycontent;
+    private String[] musicname;
+    private String[] location1;
+    private String[] location2;
+
+    private String jsontext = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +79,6 @@ public class ListDetail extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.detail_listView);
         this.context = getApplicationContext();
         buttonPlay = (Button) findViewById(R.id.buttonPlay);
-        buttonUp = (Button) findViewById(R.id.buttonUp);
         layoutDetail = (LinearLayout) findViewById(R.id.layoutDetail);
         storyTitle = (TextView) findViewById(R.id.storyTitle);
         storyContent = (TextView) findViewById(R.id.storyContent);
@@ -122,19 +132,6 @@ public class ListDetail extends AppCompatActivity {
             }
         });
 
-
-        buttonUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (layoutDetail.getVisibility() == View.GONE) {
-                    buttonUp.setText("▼");
-                    layoutDetail.setVisibility(View.VISIBLE);
-                } else {
-                    layoutDetail.setVisibility(View.GONE);
-                    buttonUp.setText("▲");
-                }
-            }
-        });
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -323,7 +320,6 @@ public class ListDetail extends AppCompatActivity {
 
                 @Override
                 public void onClick(View view) {
-                    buttonUp.setText("▼");
                     layoutDetail.setVisibility(View.VISIBLE);
                     storyTitle.setText(getItem(position).getStoryTitle());
                     storyContent.setText(getItem(position).getStoryContent());
@@ -374,6 +370,7 @@ public class ListDetail extends AppCompatActivity {
 
             Response response = client.newCall(request).execute();
 
+            jsontext = response.body().string();
             Log.d("response : ", response.body().string());
 
             return true;

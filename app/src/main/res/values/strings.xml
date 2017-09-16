@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">SensationJukeBox</string>
     <string name="title_activity_maps">Map</string>
+    <string name="current_top3_music">Top 3</string>
 </resources>
