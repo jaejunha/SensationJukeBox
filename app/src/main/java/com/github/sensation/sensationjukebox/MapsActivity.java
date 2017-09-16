@@ -87,6 +87,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(userposition));
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationChangeListener(this);
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
         onAddMarker();
     }
 
