@@ -2,58 +2,24 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <!--android:background="@drawable/list"-->
-    <LinearLayout
-    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:background="@drawable/list">
+    <AbsoluteLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:text="노래제목"
-                android:textColor="@color/colorBase"
-                android:textAlignment="center"
-                android:gravity="center_vertical"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:text="사연제목"
-                android:textColor="@color/colorBase"
-                android:textAlignment="center"
-                android:gravity="center_vertical"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="사연보기/듣기"
-                android:textColor="@color/colorBase"
-                android:textAlignment="center"
-                android:gravity="center_vertical"/>
-        </LinearLayout>
-        <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="9">
             <ListView
+                android:layout_y="288px"
                 android:id="@+id/detail_listView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.1">
             </ListView>
-        </FrameLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2">
         </LinearLayout>
-    </LinearLayout>
+    </AbsoluteLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
