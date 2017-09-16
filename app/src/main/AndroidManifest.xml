@@ -45,7 +45,8 @@
             android:screenOrientation="portrait"
             android:taskAffinity=":MapsActivity" />
         <activity android:name=".ListDetail" />
-        <activity android:name=".StoryEdit"></activity>
+        <activity android:name=".StoryEdit"/>
+        <activity android:name=".youtube.YouTubeDemo"/>
     </application>
 
 </manifest>
