@@ -41,7 +41,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationChangeListener,
-        GoogleMap.OnMarkerClickListener {
+        GoogleMap.OnMarkerClickListener
+{
 
     private TextView state;
     private TextView textContent;
@@ -59,13 +60,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     double userlongitude;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
     }
 
 
@@ -80,9 +84,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         //state = (TextView)findViewById(R.id.setState);
         mMap = googleMap;
-
         LatLng userposition = new LatLng(userlatitude, userlongitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(userposition));
         mMap.setMyLocationEnabled(true);

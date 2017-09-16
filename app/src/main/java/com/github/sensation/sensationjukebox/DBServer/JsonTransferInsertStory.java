@@ -1,35 +1,18 @@
-package com.github.sensation.sensationjukebox;
+package com.github.sensation.sensationjukebox.DBServer;
 
 import android.os.AsyncTask;
-import android.util.Log;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
 
 //////////////////////////////////////////////////////////////////////
 //     To connect with the server, This class is called.           //
 ////////////////////////////////////////////////////////////////////
-public class JsonTransfer extends AsyncTask<String, Void, String> {
+public class JsonTransferInsertStory extends AsyncTask<String, Void, String>
+{
 
     public static String strJson;
 
