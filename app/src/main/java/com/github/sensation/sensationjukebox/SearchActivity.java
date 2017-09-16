@@ -51,6 +51,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
 
+        searchEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchEditText.setText("");
+            }
+        });
+
         TextWatcher watcher = new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -10,11 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.57">
-    <EditText
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:id="@+id/search_EditText"/>
+
+        <EditText
+            android:id="@+id/search_EditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="검색할 음악을 입력해 주세요!"
+            android:layout_weight="5" />
 
         <Button
             android:id="@+id/search_Button"
@@ -27,7 +30,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5">
-    <ListView
+
+        <ListView
         android:id="@+id/Musit_ListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
