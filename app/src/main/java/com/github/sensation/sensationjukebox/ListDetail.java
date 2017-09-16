@@ -65,13 +65,13 @@ public class ListDetail extends AppCompatActivity {
     musicThread musicthread;
     static boolean threadrunning = true;
     boolean isbind = false;
-
+    private Button open_Button;
     String[] storysub;
     String[] storycontent;
     String[] musicname;
     String[] location1;
     String[] location2;
-
+    private boolean isOpen = false;
     private static String jsontext = null;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -82,6 +82,7 @@ public class ListDetail extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.detail_listView);
         this.context = getApplicationContext();
         buttonPlay = (Button) findViewById(R.id.buttonPlay);
+        open_Button = (Button) findViewById(R.id.open_Button);
         layoutDetail = (LinearLayout) findViewById(R.id.layoutDetail);
         storyTitle = (TextView) findViewById(R.id.storyTitle);
         storyContent = (TextView) findViewById(R.id.storyContent);
@@ -163,7 +164,21 @@ public class ListDetail extends AppCompatActivity {
                 }
             }
         });
+        open_Button.setOnClickListener(new View.OnClickListener(){
 
+            @Override
+            public void onClick(View view) {
+                if(isOpen){
+                    layoutDetail.setVisibility(View.GONE);
+                    open_Button.setText(" ^ ");
+                    isOpen = false;
+                }else{
+                    layoutDetail.setVisibility(View.VISIBLE);
+                    open_Button.setText(" v ");
+                    isOpen = true;
+                }
+            }
+        });
         updateMetaInfo();
 
         if(jsontext != null) {
@@ -213,7 +228,10 @@ public class ListDetail extends AppCompatActivity {
         super.onResume();
         if (!isbind) {
             isbind = bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
-            Log.e("다시바인드","ㅎㅎㅎ");
+            Log.e("다시바인드","ㅎㅎㅎ");/*
+            if(musicService.start){
+                seekBar.setMax(musicService.getDuration());
+            }*/
         }
     }
 
@@ -343,6 +361,9 @@ public class ListDetail extends AppCompatActivity {
                     songTitle.setText(getItem(position).getSongName());
                     playSong(getItem(position).getUri());
                     buttonPlay.setText("II");
+                    layoutDetail.setVisibility(View.VISIBLE);
+                    open_Button.setText(" v ");
+                    isOpen = true;
                 }
             });
 
