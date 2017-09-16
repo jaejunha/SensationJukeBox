@@ -45,6 +45,7 @@
             android:screenOrientation="portrait"
             android:taskAffinity=":MapsActivity" />
         <activity android:name=".ListDetail" />
+        <activity android:name=".SearchActivity" />
         <activity android:name=".StoryEdit"/>
     </application>
 
