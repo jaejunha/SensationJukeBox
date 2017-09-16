@@ -124,7 +124,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        Intent jump = new Intent(this, StoryEdit.class);
+        Intent jump = new Intent(this, ListDetail.class);
         startActivity(jump);
         return false;
     }

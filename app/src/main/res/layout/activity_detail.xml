@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#ffffff">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -10,6 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="노래제목"
+            android:textColor="@color/colorBase"
             android:textAlignment="center"
             android:gravity="center_vertical"/>
         <Button
@@ -21,7 +23,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-            android:layout_weight="9">
+        android:layout_weight="9">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -30,17 +32,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"></ListView>
         </ScrollView>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_gravity="bottom"
-            android:text="▲"/>
         <LinearLayout
-            android:id="@+id/layoutDetail"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:visibility="gone"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
             android:orientation="vertical">
+            <Button
+                android:id="@+id/buttonUp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="▲"/>
+            <LinearLayout
+                android:id="@+id/layoutDetail"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:visibility="gone"
+                android:padding="5dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="사연 제목 : "
+                    android:textColor="@color/colorBase"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="노래 제목 : "
+                    android:textColor="@color/colorBase"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="사연 내용 : "
+                    android:textColor="@color/colorBase"/>
+            </LinearLayout>
         </LinearLayout>
     </FrameLayout>
 </LinearLayout>

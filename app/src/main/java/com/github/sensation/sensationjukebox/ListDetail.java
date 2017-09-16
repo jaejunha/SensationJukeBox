@@ -1,12 +1,16 @@
 package com.github.sensation.sensationjukebox;
 
 import android.content.Context;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,6 +27,9 @@ public class ListDetail extends AppCompatActivity{
     private ListAdapter adapter;
     private Context context;
 
+    private Button buttonUp;
+    private LinearLayout layoutDetail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +37,22 @@ public class ListDetail extends AppCompatActivity{
 
         listView = (ListView)findViewById(R.id.listView);
         this.context = getApplicationContext();
+        buttonUp= (Button)findViewById(R.id.buttonUp);
+        layoutDetail =(LinearLayout)findViewById(R.id.layoutDetail);
+
+        buttonUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(layoutDetail.getVisibility() == View.GONE) {
+                    buttonUp.setText("▼");
+                    layoutDetail.setVisibility(View.VISIBLE);
+                }
+                else {
+                    layoutDetail.setVisibility(View.GONE);
+                    buttonUp.setText("▲");
+                }
+            }
+        });
     }
 
     public class ListAdapter extends BaseAdapter {

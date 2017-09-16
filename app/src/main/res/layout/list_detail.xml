@@ -10,6 +10,7 @@
         android:layout_alignParentLeft="true"
         android:layout_width="50dp"
         android:layout_height="match_parent"
+        android:textColor="@color/colorBase"
         android:text="사연 제목"/>
     <TextView
         android:id="@+id/textMusic"
@@ -17,6 +18,7 @@
         android:layout_alignParentLeft="true"
         android:layout_width="50dp"
         android:layout_height="match_parent"
+        android:textColor="@color/colorBase"
         android:text="노래 제목"/>
     <Button
         android:layout_alignParentRight="true"
