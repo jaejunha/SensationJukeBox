@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.VideoView;
+
+import com.google.android.youtube.player.YouTubePlayerView;
 
 import java.util.ArrayList;
 
@@ -28,7 +31,10 @@ public class ListDetail extends AppCompatActivity{
     private Context context;
 
     private Button buttonUp;
+    private Button buttonPlay;
     private LinearLayout layoutDetail;
+
+    private YouTubePlayerView youTubeVideo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +43,11 @@ public class ListDetail extends AppCompatActivity{
 
         listView = (ListView)findViewById(R.id.listView);
         this.context = getApplicationContext();
+
         buttonUp= (Button)findViewById(R.id.buttonUp);
         layoutDetail =(LinearLayout)findViewById(R.id.layoutDetail);
+        buttonPlay = (Button)findViewById(R.id.buttonPlay);
+        youTubeVideo=(YouTubePlayerView) findViewById(R.id.youtube);
 
         buttonUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +60,13 @@ public class ListDetail extends AppCompatActivity{
                     layoutDetail.setVisibility(View.GONE);
                     buttonUp.setText("▲");
                 }
+            }
+        });
+
+        buttonPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }

@@ -21,6 +21,7 @@
         android:textColor="@color/colorBase"
         android:text="노래 제목"/>
     <Button
+        android:id="@+id/buttonPlay"
         android:layout_alignParentRight="true"
         android:layout_gravity="end"
         android:layout_width="wrap_content"
