@@ -40,7 +40,6 @@ public class YouTubeDemo extends YouTubeBaseActivity implements
         setContentView(R.layout.activity_youtube);
 
         getYouTubePlayerProvider().initialize("AIzaSyD30ImlWgnzAFl38y2ZXZi9HJZzp5cNXE8",this);
-
     }
 
     /**
@@ -60,7 +59,7 @@ public class YouTubeDemo extends YouTubeBaseActivity implements
     public void onInitializationSuccess(YouTubePlayer.Provider provider,
                                         YouTubePlayer player, boolean wasRestored) {
         if (!wasRestored) {
-            player.cueVideo("IA1hox-v0jQ");  //http://www.youtube.com/watch?v=IA1hox-v0jQ
+            player.loadVideo("IA1hox-v0jQ");  //http://www.youtube.com/watch?v=IA1hox-v0jQ
 
             //cueVideo(String videoId)
             //지정한 동영상의 미리보기 이미지를 로드하고 플레이어가 동영상을 재생하도록 준비하지만

@@ -2,6 +2,7 @@ package com.github.sensation.sensationjukebox;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -38,7 +39,6 @@ public class ListDetail extends AppCompatActivity{
     private LinearLayout layoutDetail;
 
     private FloatingActionButton fab;
-    private YouTubeDemo youTubeDemo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class ListDetail extends AppCompatActivity{
         buttonUp= (Button)findViewById(R.id.buttonUp);
         layoutDetail =(LinearLayout)findViewById(R.id.layoutDetail);
 
-        youTubeDemo = new YouTubeDemo();
+        startActivity(new Intent(context,YouTubeDemo.class));
 
         fab = (FloatingActionButton)findViewById(R.id.EditStory);
         fab.setOnClickListener(new View.OnClickListener() {
