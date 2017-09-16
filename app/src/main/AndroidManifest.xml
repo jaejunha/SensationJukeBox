@@ -33,17 +33,18 @@
         <activity
             android:name=".Play"
             android:label="SensationJukeBox">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".MapsActivity"
             android:excludeFromRecents="true"
             android:screenOrientation="portrait"
-            android:taskAffinity=":MapsActivity" />
+            android:taskAffinity=":MapsActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            </activity>
         <activity android:name=".TopActivity" />
         <activity android:name=".Intro" />
         <activity android:name=".ListDetail" />

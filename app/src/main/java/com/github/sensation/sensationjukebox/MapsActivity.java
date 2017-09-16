@@ -58,6 +58,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static String location2 = null;
 
     private GoogleMap mMap;
+    public static String Listlocation = null;
 
     double latitude = 37.824009;
     double longitude = 127.597996;
@@ -122,16 +123,114 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMyLocationChangeListener(this);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         onAddMarker();
+        onAddMarker2();
+        onAddMarker3();
     }
 
 
-    //마커 , 원추가
+    //마커 , 원추가(location 1)
     public void onAddMarker() {
         LatLng position = new LatLng(latitude, longitude);
 
         //나의위치 마커
         MarkerOptions mymarker = new MarkerOptions()
-                .position(position);   //마커위치
+                .position(position).title("Zone-A");   //마커위치
+
+        // 반경 1KM원
+        CircleOptions circle1KM = new CircleOptions().center(position) //원점
+                .radius(50)      //반지름 단위 : m
+                .strokeWidth(0f)  //선너비 0f : 선없음
+                .fillColor(Color.parseColor("#880000ff")); //배경색
+
+        //마커추가
+        this.mMap.addMarker(mymarker);
+
+        //this.mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+        //this.mMap.setMyLocationEnabled(true);
+        //this.mMap.setOnMyLocationChangeListener(this);
+        this.mMap.setOnMarkerClickListener(this);
+
+        //원추가
+        this.mMap.addCircle(circle1KM);
+
+        List<Address> list = null;
+
+        try {
+            Locale.setDefault(Locale.KOREA);
+            Geocoder geocoder = new Geocoder(this);
+            list = geocoder.getFromLocation(latitude, longitude, 1);
+
+            String tmp = list.get(0).getAddressLine(0);
+            String cut[] = tmp.split(" ");
+            if (cut.length > 1)
+                location1 = cut[1];
+            if (cut.length > 2)
+                location2 = cut[2];
+
+            Log.e("test", "" + location1 + location2);
+            if (list.size() == 0) {
+                //error 처리
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //마커 , 원추가(location 2)
+    public void onAddMarker2() {
+        LatLng position = new LatLng(latitude + 0.005, longitude + 0.005);
+
+        //나의위치 마커
+        MarkerOptions mymarker = new MarkerOptions()
+                .position(position).title("Zone-B");   //마커위치
+
+        // 반경 1KM원
+        CircleOptions circle1KM = new CircleOptions().center(position) //원점
+                .radius(50)      //반지름 단위 : m
+                .strokeWidth(0f)  //선너비 0f : 선없음
+                .fillColor(Color.parseColor("#880000ff")); //배경색
+
+        //마커추가
+        this.mMap.addMarker(mymarker);
+
+        //this.mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+        //this.mMap.setMyLocationEnabled(true);
+        //this.mMap.setOnMyLocationChangeListener(this);
+        this.mMap.setOnMarkerClickListener(this);
+
+        //원추가
+        this.mMap.addCircle(circle1KM);
+
+        List<Address> list = null;
+
+        try {
+            Locale.setDefault(Locale.KOREA);
+            Geocoder geocoder = new Geocoder(this);
+            list = geocoder.getFromLocation(latitude, longitude, 1);
+
+            String tmp = list.get(0).getAddressLine(0);
+            String cut[] = tmp.split(" ");
+            if (cut.length > 1)
+                location1 = cut[1];
+            if (cut.length > 2)
+                location2 = cut[2];
+
+            Log.e("test", "" + location1 + location2);
+            if (list.size() == 0) {
+                //error 처리
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //마커 , 원추가(location 3)
+    public void onAddMarker3() {
+        LatLng position = new LatLng(latitude + 0.005, longitude+ 0.005);
+
+        //나의위치 마커
+        MarkerOptions mymarker = new MarkerOptions()
+                .position(position).title("Zone-C");   //마커위치
 
         // 반경 1KM원
         CircleOptions circle1KM = new CircleOptions().center(position) //원점
@@ -190,6 +289,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public boolean onMarkerClick(Marker marker) {
         Intent jump = new Intent(this, ListDetail.class);
         startActivity(jump);
+        if(marker.getTitle().equals("Zone-A")){
+            Listlocation = "zone1";
+        } else if(marker.getTitle().equals("Zone-B")){
+            Listlocation = "zone2";
+        } else if(marker.getTitle().equals("Zone-C")){
+            Listlocation = "zone3";
+        }
+
         return false;
     }
 
