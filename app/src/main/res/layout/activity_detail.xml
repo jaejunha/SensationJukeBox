@@ -94,7 +94,6 @@
                         android:layout_height="match_parent"
                         android:id="@+id/songTitle"
                         android:gravity="center"
-                        android:text="노래 제목 : "
                         android:textColor="@color/colorBase"/>
                 </LinearLayout>
                 <LinearLayout
