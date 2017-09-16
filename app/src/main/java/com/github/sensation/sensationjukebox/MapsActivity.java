@@ -80,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         RemoteDBManager rdbm = new RemoteDBManager();
         rdbm.execute("http://45.76.100.46/select_top3.php", "zone", "zone1", "top_rank", "3");
 
-        TextView top3TV = findViewById(R.id.textContent);
+        TextView top3TV = findViewById(R.id.TopContent);
         String []top3_music = new String[3];
 
         try
