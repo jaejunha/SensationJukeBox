@@ -6,12 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class StoryEdit extends AppCompatActivity implements View.OnClickListener{
-    Button SongSearch_Button;
 import com.gc.materialdesign.views.ButtonRectangle;
 
-public class StoryEdit extends AppCompatActivity {
-
+public class StoryEdit extends AppCompatActivity implements View.OnClickListener{
+    Button SongSearch_Button;
     private ButtonRectangle cancel;
 
     @Override
