@@ -214,9 +214,6 @@ public class ListDetail extends AppCompatActivity {
         if (!isbind) {
             isbind = bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
             Log.e("다시바인드","ㅎㅎㅎ");
-            if(musicService.start){
-                seekBar.setMax(musicService.getDuration());
-            }
         }
     }
 
