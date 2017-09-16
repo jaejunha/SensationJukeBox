@@ -60,16 +60,19 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/storyTitle"
                     android:text="사연 제목 : "
                     android:textColor="@color/colorBase"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/songTitle"
                     android:text="노래 제목 : "
                     android:textColor="@color/colorBase"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/storyContent"
                     android:text="사연 내용 : "
                     android:textColor="@color/colorBase"/>
 

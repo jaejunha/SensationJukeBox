@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 /**
@@ -27,13 +30,14 @@ public class ListDetail extends AppCompatActivity{
     private ArrayList<StoryItem> storyItemArrayList;
     private StoryListAdpater storyListAdpater;
     private Context context;
-
+    private static int songPosition=0;
     private Button buttonUp;
     private Button buttonPlay;
     private LinearLayout layoutDetail;
-
     private FloatingActionButton fab;
-
+    private TextView storyTitle;
+    private TextView storyContent;
+    private TextView songTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,8 +47,21 @@ public class ListDetail extends AppCompatActivity{
 
         buttonUp= (Button)findViewById(R.id.buttonUp);
         layoutDetail =(LinearLayout)findViewById(R.id.layoutDetail);
-
+        storyTitle = (TextView) findViewById(R.id.storyTitle);
+        storyContent = (TextView) findViewById(R.id.storyContent);
+        songTitle = (TextView) findViewById(R.id.songTitle);
         //-------임시로 데이터 만듬---------
+        Field[] fields = R.raw.class.getFields();
+        /*for (int count = 0; count < fields.length; count++) {
+            Log.e("노래", fields[count].getName());
+            if (fields[count].getName().toString().contains("music")) {
+                if (musiccount == 0) {
+                    musicstart = count;
+                }
+                musiccount++;
+                song.add(fields[count].getName());
+            }
+        }*/
         storyItemArrayList = new ArrayList<StoryItem>();
         StoryItem storyItem = new StoryItem();
         storyItem.setSongName("꽃이 핀다");
@@ -61,6 +78,18 @@ public class ListDetail extends AppCompatActivity{
         storyListAdpater = new StoryListAdpater(storyItemArrayList);
         listView.setAdapter(storyListAdpater);
         //------데이터베이스에서 읽어와야 되지만 값없어서 임시로 만듬--------
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
+                StoryItem storyItemm = (StoryItem)parent.getAdapter().getItem(i);
+                buttonUp.setText("▼");
+                layoutDetail.setVisibility(View.VISIBLE);
+                songTitle.setText(storyItemm.getSongName());
+                storyTitle.setText(storyItemm.getStoryTitle());
+                storyContent.setText(storyItemm.getStoryContent());
+            }
+        });
 
         fab = (FloatingActionButton)findViewById(R.id.EditStory);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -129,18 +158,28 @@ public class ListDetail extends AppCompatActivity{
                 holder = new ViewHolder();
                 holder.textMusic = (TextView) convertView.findViewById(R.id.textMusic);
                 holder.textStory = (TextView) convertView.findViewById(R.id.textStory);
+                holder.playButton = (Button) convertView.findViewById(R.id.buttonPlay);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
             StoryItem storyItem = (StoryItem) getItem(position); //포지션 별로 값을 채워 줍니다.
-            holder.textMusic.setText(storyItem.getStoryTitle());
-            holder.textStory.setText(storyItem.getStoryContent());
+            holder.textMusic.setText(storyItem.getSongName());
+            holder.textStory.setText(storyItem.getStoryTitle());
+            holder.playButton.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+
             return convertView;
         }
 
         public class ViewHolder {
             TextView textStory, textMusic;
+            Button playButton;
         }
     }
 }
