@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.places.PlaceLikelihood;
@@ -41,6 +42,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String[] LikelyAttributions = null;
     private LatLng[] LikelyLatLngs = null;
 
+    private TextView textContent;
+
     private Marker currentMarker = null;
     private GoogleMap googleMap = null;
 
@@ -55,6 +58,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        textContent = (TextView)findViewById(R.id.textContent);
+        textContent.setText("< 통합 Top 3 >");
     }
 
 

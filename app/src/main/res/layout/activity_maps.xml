@@ -12,16 +12,18 @@
     <FrameLayout
         android:id="@+id/frameTop"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="100dp"
         android:layout_margin="10dp">
         <View
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="#000000"
+            android:layout_height="30dp"
+            android:background="@drawable/drawable_radius_rectangle"
             android:alpha="0.5" />
         <TextView
+            android:id="@+id/textContent"
             android:textColor="#ffffff"
-            android:text="dfaasdfsfadasf"
+            android:textAlignment="center"
+            android:padding="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </FrameLayout>
