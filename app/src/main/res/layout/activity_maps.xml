@@ -12,6 +12,7 @@
         tools:context="com.github.sensation.sensationjukebox.MapsActivity" />
 
         <FrameLayout
+            android:layout_gravity="center_horizontal"
             android:id="@+id/frameTop"
             android:layout_width="368dp"
             android:layout_height="wrap_content"
@@ -28,24 +29,32 @@
                 android:layout_height="29dp"
                 android:alpha="0.5"
                 android:background="@drawable/drawable_radius_rectangle" />
+<<<<<<< HEAD
             <RelativeLayout
+=======
+            <LinearLayout
+>>>>>>> 1d6ea7369fb4561fe428eba0e3ed42f6f8bdfa29
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-              <TextView
-                android:id="@+id/textOut"
-                android:layout_width="match_parent"
                 android:layout_height="29dp"
-                android:padding="5dp"
-                android:textAlignment="center"
-                android:textColor="#ffffff" />
+                android:orientation="vertical">
+              <TextView
+                    android:id="@+id/textOut"
+                    android:layout_width="match_parent"
+                    android:layout_height="29dp"
+                    android:padding="5dp"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff" />
                 <TextView
-                    android:layout_below="@id/textOut"
                     android:id="@+id/textIn"
                     android:layout_width="match_parent"
                     android:layout_height="29dp"
                     android:padding="5dp"
                     android:textAlignment="center"
                     android:textColor="#ffffff" />
+<<<<<<< HEAD
             </RelativeLayout>
+=======
+            </LinearLayout>
+>>>>>>> 1d6ea7369fb4561fe428eba0e3ed42f6f8bdfa29
         </FrameLayout>
 </FrameLayout>
