@@ -21,12 +21,15 @@
             android:layout_height="90dp"
             android:alpha="0.5"
             android:background="@drawable/drawable_radius_rectangle" />
+
         <TextView
             android:id="@+id/textContent"
             android:textColor="#ffffff"
             android:textAlignment="center"
             android:padding="5dp"
+            android:text="@string/current_top3_music"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
     </FrameLayout>
 </FrameLayout>

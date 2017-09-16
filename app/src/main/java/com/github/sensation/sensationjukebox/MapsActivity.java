@@ -66,9 +66,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        textContent = (TextView) findViewById(R.id.textContent);
-        textContent.setText("< 통합 Top 3 >");
     }
 
 
