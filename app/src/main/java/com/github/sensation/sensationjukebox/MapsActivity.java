@@ -37,8 +37,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
 
+<<<<<<< HEAD
     double latitude = 37.824009;
     double longitude = 127.597996;
+=======
+    private TextView textContent;
+
+    private Marker currentMarker = null;
+    private GoogleMap googleMap = null;
+>>>>>>> devJun
 
     double userlatitude;
     double userlongitude;
@@ -51,6 +58,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        textContent = (TextView)findViewById(R.id.textContent);
+        textContent.setText("< 통합 Top 3 >");
     }
 
 
