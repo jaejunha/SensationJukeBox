@@ -44,6 +44,7 @@
             android:excludeFromRecents="true"
             android:screenOrientation="portrait"
             android:taskAffinity=":MapsActivity" />
+        <activity android:name=".Intro" />
         <activity android:name=".ListDetail" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".StoryEdit"/>
