@@ -68,6 +68,7 @@ public class MusicService extends Service {
 
     public void musicStart() {
         player.start();
+        start = true;
     }
 
     public void musicPause() {

@@ -71,7 +71,7 @@ public class ListDetail extends AppCompatActivity {
         Uri music1 = null;
         Uri music2 = null;
         for (int count = 0; count < fields.length; count++) {
-            Log.e("노래", fields[count].getName());
+            //Log.e("노래", fields[count].getName());
             if (fields[count].getName().toString().contains("music1")) {
                 music1 = Uri.parse("android.resource://" + getPackageName() + "/raw/" + fields[count].getName());
             } else if (fields[count].getName().toString().contains("music3")) {
@@ -167,6 +167,7 @@ public class ListDetail extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if (playIntent == null) {
+            Log.e("바인드","ㅎ1ㅎㅎ");
             playIntent = new Intent(this, MusicService.class);
             isbind = bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
             startService(playIntent);
@@ -176,7 +177,13 @@ public class ListDetail extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        if (!isbind) {
+            isbind = bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+            Log.e("다시바인드","ㅎㅎㅎ");
+            if(musicService.start){
+                seekBar.setMax(musicService.getDuration());
+            }
+        }
     }
 
     @Override
@@ -186,8 +193,8 @@ public class ListDetail extends AppCompatActivity {
             unbindService(musicConnection);
             isbind = false;
         }
-        stopService(playIntent);
-        threadrunning = false;
+        //stopService(playIntent);
+        //threadrunning = false;
     }
 
     public void playSong(Uri songPath) {
@@ -199,6 +206,7 @@ public class ListDetail extends AppCompatActivity {
             seekBar.setProgress(0);
 
             play(null);
+            //MusicService.start = true;
         } catch (Exception e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
