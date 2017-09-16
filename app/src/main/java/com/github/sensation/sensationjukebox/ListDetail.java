@@ -2,6 +2,7 @@ package com.github.sensation.sensationjukebox;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,7 +14,9 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 
@@ -30,42 +33,45 @@ public class ListDetail extends AppCompatActivity{
     private ArrayList<StoryItem> storyItemArrayList;
     private StoryListAdpater storyListAdpater;
     private Context context;
-    private static int songPosition=0;
     private Button buttonUp;
-    private Button buttonPlay;
     private LinearLayout layoutDetail;
     private FloatingActionButton fab;
     private TextView storyTitle;
     private TextView storyContent;
     private TextView songTitle;
+    private SeekBar seekBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        listView = (ListView)findViewById(R.id.detail_listView);
+        listView = (ListView) findViewById(R.id.detail_listView);
         this.context = getApplicationContext();
 
-        buttonUp= (Button)findViewById(R.id.buttonUp);
-        layoutDetail =(LinearLayout)findViewById(R.id.layoutDetail);
-        storyTitle = (TextView) findViewById(R.id.textStory);
-        storyContent = (TextView) findViewById(R.id.textMusic);
+        buttonUp = (Button) findViewById(R.id.buttonUp);
+        layoutDetail = (LinearLayout) findViewById(R.id.layoutDetail);
+        storyTitle = (TextView) findViewById(R.id.storyTitle);
+        storyContent = (TextView) findViewById(R.id.storyContent);
+        songTitle = (TextView) findViewById(R.id.songTitle);
+
         //-------임시로 데이터 만듬---------
+
         Field[] fields = R.raw.class.getFields();
-        /*for (int count = 0; count < fields.length; count++) {
+        Uri music1 = null;
+        Uri music2 = null;
+        for (int count = 0; count < fields.length; count++) {
             Log.e("노래", fields[count].getName());
-            if (fields[count].getName().toString().contains("music")) {
-                if (musiccount == 0) {
-                    musicstart = count;
-                }
-                musiccount++;
-                song.add(fields[count].getName());
+            if (fields[count].getName().toString().contains("music1")) {
+                music1 = Uri.parse("android.resource://" + getPackageName() + "/raw/" + fields[count].getName());
+            } else if (fields[count].getName().toString().contains("music3")) {
+                music2 = Uri.parse("android.resource://" + getPackageName() + "/raw/" + fields[count].getName());
             }
-        }*/
+        }
         storyItemArrayList = new ArrayList<StoryItem>();
         StoryItem storyItem = new StoryItem();
         storyItem.setSongName("꽃이 핀다");
         storyItem.setStoryTitle("사랑에 빠졌습니다..");
         storyItem.setStoryContent("물론 꿈에서 빠졌습니다.. ");
+        storyItem.setUri(music2);
         storyItemArrayList.add(storyItem);
 
 
@@ -73,24 +79,14 @@ public class ListDetail extends AppCompatActivity{
         storyItem1.setSongName("스토커");
         storyItem1.setStoryTitle("좋아하는 사람이 있습니다.");
         storyItem1.setStoryContent("저는 걔를 안좋아하는데 걔는 저를 안좋아해요..ㅠㅠ");
+        storyItem1.setUri(music1);
         storyItemArrayList.add(storyItem1);
         storyListAdpater = new StoryListAdpater(storyItemArrayList);
         listView.setAdapter(storyListAdpater);
         //------데이터베이스에서 읽어와야 되지만 값없어서 임시로 만듬--------
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
-                StoryItem storyItemm = (StoryItem)parent.getAdapter().getItem(i);
-                buttonUp.setText("▼");
-                layoutDetail.setVisibility(View.VISIBLE);
-                songTitle.setText(storyItemm.getSongName());
-                storyTitle.setText(storyItemm.getStoryTitle());
-                storyContent.setText(storyItemm.getStoryContent());
-            }
-        });
 
-        fab = (FloatingActionButton)findViewById(R.id.EditStory);
+        fab = (FloatingActionButton) findViewById(R.id.EditStory);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,30 +95,53 @@ public class ListDetail extends AppCompatActivity{
             }
         });
 
-        buttonPlay = (Button)findViewById(R.id.buttonPlay);
-      //  youTubeVideo=(YouTubePlayerView) findViewById(R.id.youtube);
 
         buttonUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(layoutDetail.getVisibility() == View.GONE) {
+                if (layoutDetail.getVisibility() == View.GONE) {
                     buttonUp.setText("▼");
                     layoutDetail.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     layoutDetail.setVisibility(View.GONE);
                     buttonUp.setText("▲");
                 }
             }
         });
-
-        buttonPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
     }
+
+    /*public void playSong(Uri songPath) {
+        try {
+            musicService.musicReset();
+            //player = MediaPlayer.create(this, songPath);//노래 다 끊고 새로운 노래로 갱신.
+            musicService.setPlayer(songPath);
+            seekbar.setMax(musicService.getDuration());
+            seekbar.setProgress(0);
+
+            play(null);
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void play(View view) {
+        if (!musicService.isPlaying()) {
+            musicService.musicStart();
+            if (!musicthread.isAlive()) {
+                musicthread = new musicThread();
+                musicthread.start();
+            }
+            tv = (TextView) this.findViewById(R.id.playStatus);
+            tv.setText("재생중");
+        }
+    }
+
+    public void stop(View view) {
+        if (musicService.isPlaying()) {
+            musicService.musicPause();
+            tv.setText("정지");
+        }
+    }*/
 
     public class StoryListAdpater extends BaseAdapter {
 
@@ -139,7 +158,7 @@ public class ListDetail extends AppCompatActivity{
         }
 
         @Override
-        public Object getItem(int position) {
+        public StoryItem getItem(int position) {
             return object.get(position);
         }
 
@@ -169,9 +188,12 @@ public class ListDetail extends AppCompatActivity{
 
                 @Override
                 public void onClick(View view) {
-                    Log.d("test",holder.textMusic.toString());
                     buttonUp.setText("▼");
                     layoutDetail.setVisibility(View.VISIBLE);
+                    storyTitle.setText(getItem(position).getStoryTitle());
+                    storyContent.setText(getItem(position).getStoryContent());
+                    songTitle.setText(getItem(position).getSongName());
+
                 }
             });
 

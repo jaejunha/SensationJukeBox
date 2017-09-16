@@ -1,5 +1,9 @@
 package com.github.sensation.sensationjukebox;
 
+import android.net.Uri;
+
+import java.net.URI;
+
 /**
  * Created by Taek on 2017. 9. 16..
  */
@@ -8,6 +12,15 @@ public class StoryItem {
     String storyTitle;
     String storyContent;
     String songName;
+    Uri uri;
+
+    public Uri getUri() {
+        return uri;
+    }
+
+    public void setUri(Uri uri) {
+        this.uri = uri;
+    }
 
     public String getStoryTitle() {
         return storyTitle;
