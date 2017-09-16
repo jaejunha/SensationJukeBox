@@ -47,9 +47,8 @@ public class ListDetail extends AppCompatActivity{
 
         buttonUp= (Button)findViewById(R.id.buttonUp);
         layoutDetail =(LinearLayout)findViewById(R.id.layoutDetail);
-        storyTitle = (TextView) findViewById(R.id.storyTitle);
-        storyContent = (TextView) findViewById(R.id.storyContent);
-        songTitle = (TextView) findViewById(R.id.songTitle);
+        storyTitle = (TextView) findViewById(R.id.textStory);
+        storyContent = (TextView) findViewById(R.id.textMusic);
         //-------임시로 데이터 만듬---------
         Field[] fields = R.raw.class.getFields();
         /*for (int count = 0; count < fields.length; count++) {
@@ -151,7 +150,7 @@ public class ListDetail extends AppCompatActivity{
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
+            final ViewHolder holder;
             if (convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(context);
                 convertView = inflater.inflate(R.layout.list_detail, parent, false);
@@ -170,7 +169,9 @@ public class ListDetail extends AppCompatActivity{
 
                 @Override
                 public void onClick(View view) {
-
+                    Log.d("test",holder.textMusic.toString());
+                    buttonUp.setText("▼");
+                    layoutDetail.setVisibility(View.VISIBLE);
                 }
             });
 
