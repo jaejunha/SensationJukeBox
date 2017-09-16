@@ -6,11 +6,14 @@ import android.graphics.Color;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.support.annotation.NonNull;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.ResultCallback;
@@ -29,6 +32,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationChangeListener,
         GoogleMap.OnMarkerClickListener{
@@ -104,6 +111,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //원추가
         this.mMap.addCircle(circle1KM);
+
+        List<Address> list = null;
+
+        try {
+            Locale.setDefault(Locale.KOREA);
+            Geocoder geocoder = new Geocoder(this);
+            list = geocoder.getFromLocation(latitude, longitude, 1);
+        //    for(int i=0;i<list.size();i++)
+                Log.d("주소여러개",list.get(0).getAddressLine(0));
+            if(list.size() == 0){
+                //error 처리
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -111,26 +133,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         userlatitude=location.getLatitude();
         userlongitude=location.getLongitude();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(userlatitude, userlongitude), 18));
-        if(distance(userlatitude, userlongitude, latitude, longitude) <=50 &&
+                if(distance(userlatitude, userlongitude, latitude, longitude) <=50 &&
                 distance(userlatitude, userlongitude, latitude, longitude) >=-50){
-            //state.setText("Change");
-        }else{
-            //state.setText("test");
-        }
-    }
+                //state.setText("Change");
+                }else{
+                //state.setText("test");
+                }
+                }
 
-    @Override
-    public boolean onMarkerClick(Marker marker) {
+@Override
+public boolean onMarkerClick(Marker marker) {
         Intent jump = new Intent(this, ListDetail.class);
         startActivity(jump);
         return false;
-    }
+        }
 
-    public double distance(double lat1, double lon1, double lat2, double lon2){
+public double distance(double lat1, double lon1, double lat2, double lon2){
         double theta, distance;
         theta = lon1 - lon2;
         distance = Math.sin(degtorad(lat1)) * Math.sin(degtorad(lat2)) + Math.cos(degtorad(lat1))
-                * Math.cos(degtorad(lat2)) * Math.cos(degtorad(theta));
+        * Math.cos(degtorad(lat2)) * Math.cos(degtorad(theta));
         distance = Math.acos(distance);
         distance = radtodeg(distance);
 
@@ -139,15 +161,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         distance = distance * 1000.0;      // 단위  km 에서 m 로 변환
 
         return distance;
-    }
+        }
 
-    // 주어진 도(degree) 값을 라디언으로 변환
-    private double degtorad(double deg){
+// 주어진 도(degree) 값을 라디언으로 변환
+private double degtorad(double deg){
         return (double)(deg * Math.PI / (double)180d);
-    }
+        }
 
-    // 주어진 라디언(radian) 값을 도(degree) 값으로 변환
-    private double radtodeg(double rad){
+// 주어진 라디언(radian) 값을 도(degree) 값으로 변환
+private double radtodeg(double rad){
         return (double)(rad * (double)180d / Math.PI);
-    }
-}
+        }
+        }
