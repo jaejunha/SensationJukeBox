@@ -15,38 +15,14 @@ import android.os.IBinder;
  */
 
 public class MusicService extends Service {
-    static boolean start = false;
-    MediaPlayer player= new MediaPlayer();
+    static boolean alive = false;
+    static MediaPlayer player= new MediaPlayer();
     private final IBinder musicBind = new MusicBinder();
-    boolean isBindSignal = false;
     @Override
     public IBinder onBind(Intent intent) {
-        //player = MediaPlayer.create(this, R.raw.music1);
-        player = new MediaPlayer();
-        //start = true;
-        //IntentFilter filter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
-        //registerReceiver(mBroadcastReceiver,filter);
         return musicBind;
     }
 
-    /*private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
-                String reason = intent.getStringExtra("reason");
-                if (reason != null) {
-                    if (reason.equals("homekey")) {
-                        if(start == true) {
-                            stopservice();
-                            start = false;
-                        }
-                    }
-                }
-            }
-
-        }
-    };*/
     public class MusicBinder extends Binder {
         MusicService getService() {
             return MusicService.this;
@@ -55,11 +31,11 @@ public class MusicService extends Service {
 
     @Override
     public void onDestroy() {
-        //unregisterReceiver(mBroadcastReceiver);
         player.stop();
         super.onDestroy();
     }
     public void stopservice(){
+        alive = false;
         this.stopSelf();
     }
     public void musicReset() {
@@ -68,7 +44,6 @@ public class MusicService extends Service {
 
     public void musicStart() {
         player.start();
-        start = true;
     }
 
     public void musicPause() {

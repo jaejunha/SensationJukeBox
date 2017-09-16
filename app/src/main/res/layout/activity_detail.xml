@@ -4,23 +4,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/list">
- <LinearLayout
-     android:layout_width="match_parent"
-     android:layout_height="match_parent"
-     android:orientation="vertical"
-     android:weightSum="100">
-     <View
-         android:layout_width="match_parent"
-         android:layout_height="0dp"
-         android:layout_weight="18"></View>
-    <ListView
-        android:id="@+id/detail_listView"
+    <LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="노래제목"
+                android:textColor="@color/colorBase"
+                android:textAlignment="center"
+                android:gravity="center_vertical"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="사연제목"
+                android:textColor="@color/colorBase"
+                android:textAlignment="center"
+                android:gravity="center_vertical"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="사연보기/듣기"
+                android:textColor="@color/colorBase"
+                android:textAlignment="center"
+                android:gravity="center_vertical"/>
+        </LinearLayout>
+        <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="82">
-    </ListView>
- </LinearLayout>
-    <LinearLayout
+        android:layout_weight="9">
+            <ListView
+                android:id="@+id/detail_listView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1">
+            </ListView>
+        </FrameLayout>
+    </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="bottom"
