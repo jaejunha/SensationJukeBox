@@ -39,14 +39,15 @@
             android:excludeFromRecents="true"
             android:screenOrientation="portrait"
             android:taskAffinity=":MapsActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
             </activity>
         <activity android:name=".TopActivity" />
-        <activity android:name=".Intro" />
+        <activity android:name=".Intro" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity android:name=".ListDetail" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".StoryEdit"/>
