@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,7 +52,7 @@ import okhttp3.Response;
 public class ListDetail extends AppCompatActivity implements View.OnTouchListener {
 
     private ListView listView;
-    private ImageView gone;
+    private RelativeLayout gone;
     private ArrayList<StoryItem> storyItemArrayList;
     private StoryListAdpater storyListAdpater;
     private Context context;
@@ -89,13 +90,13 @@ public class ListDetail extends AppCompatActivity implements View.OnTouchListene
         listView = (ListView) findViewById(R.id.detail_listView);
         this.context = getApplicationContext();
         buttonPlay = (Button) findViewById(R.id.buttonPlay);
-        open_Button = (Button) findViewById(R.id.open_Button);
+        //open_Button = (Button) findViewById(R.id.open_Button);
         layoutDetail = (LinearLayout) findViewById(R.id.layoutDetail);
         storyTitle = (TextView) findViewById(R.id.storyTitle);
         storyContent = (TextView) findViewById(R.id.storyContent);
         songTitle = (TextView) findViewById(R.id.songTitle);
         seekBar = (SeekBar) findViewById(R.id.seekMusic);
-        gone = (ImageView) findViewById(R.id.gone);
+        gone = (RelativeLayout) findViewById(R.id.gone);
         storysub = new String[100];
         storycontent = new String[100];
         musicname = new String[100];
@@ -124,14 +125,14 @@ public class ListDetail extends AppCompatActivity implements View.OnTouchListene
             }
         }
 
-        fab = (FloatingActionButton) findViewById(R.id.EditStory);
+        /*fab = (FloatingActionButton) findViewById(R.id.EditStory);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent change = new Intent(ListDetail.this, StoryEdit.class);
                 startActivity(change);
             }
-        });
+        });*/
 
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -174,7 +175,7 @@ public class ListDetail extends AppCompatActivity implements View.OnTouchListene
                 }
             }
         });
-        open_Button.setOnClickListener(new View.OnClickListener() {
+        /*open_Button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -188,7 +189,7 @@ public class ListDetail extends AppCompatActivity implements View.OnTouchListene
                     isOpen = true;
                 }
             }
-        });
+        });*/
         updateMetaInfo();
 
         if (jsontext != null) {

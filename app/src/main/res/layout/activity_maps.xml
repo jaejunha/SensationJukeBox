@@ -24,19 +24,20 @@
 
         <TextView
             android:id="@+id/textContent"
-            android:textColor="#ffffff"
-            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="@string/current_top3_music"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:textAlignment="center"
+            android:textColor="#ffffff" />
 
         <TextView
             android:id="@+id/TopContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:elevation="1dp"
             android:gravity="bottom|center_vertical|center_horizontal"
-            android:text="TextView"
+            android:text="HotSop에 가보세요! 실시간 구역 랭킹이 나와요!"
             android:textColor="#ffffff" />
 
     </FrameLayout>
