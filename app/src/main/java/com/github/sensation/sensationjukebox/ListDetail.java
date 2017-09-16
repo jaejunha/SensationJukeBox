@@ -7,6 +7,7 @@ import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,8 +24,15 @@ import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by dream on 2017-09-16.
@@ -65,17 +73,20 @@ public class ListDetail extends AppCompatActivity {
         songTitle = (TextView) findViewById(R.id.songTitle);
         seekBar = (SeekBar) findViewById(R.id.seekMusic);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
 
         //-------임시로 데이터 만듬---------노래 임의로 때려박고 리스트에 값 추가한 작업.
         Field[] fields = R.raw.class.getFields();
         Uri music1 = null;
-        Uri music2 = null;
+        Uri music3 = null;
         for (int count = 0; count < fields.length; count++) {
             //Log.e("노래", fields[count].getName());
             if (fields[count].getName().toString().contains("music1")) {
                 music1 = Uri.parse("android.resource://" + getPackageName() + "/raw/" + fields[count].getName());
             } else if (fields[count].getName().toString().contains("music3")) {
-                music2 = Uri.parse("android.resource://" + getPackageName() + "/raw/" + fields[count].getName());
+                music3 = Uri.parse("android.resource://" + getPackageName() + "/raw/" + fields[count].getName());
             }
         }
         storyItemArrayList = new ArrayList<StoryItem>();
@@ -83,7 +94,7 @@ public class ListDetail extends AppCompatActivity {
         storyItem.setSongName("꽃이 핀다");
         storyItem.setStoryTitle("사랑에 빠졌습니다..");
         storyItem.setStoryContent("물론 상상속의 그녀와... ");
-        storyItem.setUri(music2);
+        storyItem.setUri(music3);
         storyItemArrayList.add(storyItem);
 
 
@@ -161,6 +172,8 @@ public class ListDetail extends AppCompatActivity {
                 }
             }
         });
+
+        updateMetaInfo();
     }
 
     @Override
@@ -340,5 +353,29 @@ public class ListDetail extends AppCompatActivity {
             Log.e("스레드 끝.", "입니다");
         }
 
+    }
+
+    private boolean updateMetaInfo(){
+        try{
+            OkHttpClient client = new OkHttpClient();
+            String url = "http://45.76.100.46/select_top3.php";
+
+            RequestBody body = new FormBody.Builder()
+                    .build();
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(body)
+                    .build();
+            client.newCall(request).execute();
+
+            Response response = client.newCall(request).execute();
+
+            Log.d("response : ", response.body().string());
+
+            return true;
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return false;
     }
 }
