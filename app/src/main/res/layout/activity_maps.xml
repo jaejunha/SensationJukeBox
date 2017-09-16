@@ -1,8 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -10,26 +11,126 @@
         android:layout_height="match_parent"
         tools:context="com.github.sensation.sensationjukebox.MapsActivity" />
 
-    <FrameLayout
-        android:id="@+id/frameTop"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="10dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:alpha="0.5"
-            android:background="@drawable/drawable_radius_rectangle" />
+        <FrameLayout
+            android:id="@+id/frameTop1"
+            android:layout_width="368dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            map:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            map:layout_constraintRight_toRightOf="parent"
+            android:layout_marginLeft="8dp"
+            map:layout_constraintLeft_toLeftOf="parent">
 
-        <TextView
-            android:id="@+id/textContent"
-            android:textColor="#ffffff"
-            android:textAlignment="center"
-            android:padding="5dp"
-            android:text="@string/current_top3_music"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="29dp"
+                android:alpha="0.5"
+                android:background="@drawable/drawable_radius_rectangle" />
 
-    </FrameLayout>
+            <TextView
+                android:id="@+id/textContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/current_top3_music"
+                android:textAlignment="center"
+                android:textColor="#ffffff" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/frameTop2"
+            android:layout_width="368dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            map:layout_constraintTop_toBottomOf="@+id/frameTop1"
+            android:layout_marginLeft="8dp"
+            map:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginRight="8dp"
+            map:layout_constraintRight_toRightOf="parent">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="29dp"
+                android:alpha="0.5"
+                android:background="@drawable/drawable_radius_rectangle" />
+
+            <TextView
+                android:id="@+id/textTop1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="서버로부터 호출중입니다."
+                android:textAlignment="center"
+                android:textColor="#ffffff" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/frameTop3"
+            android:layout_width="368dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-15dp"
+            map:layout_constraintTop_toBottomOf="@+id/frameTop2"
+            android:layout_marginRight="8dp"
+            map:layout_constraintRight_toRightOf="parent"
+            android:layout_marginLeft="8dp"
+            map:layout_constraintLeft_toLeftOf="parent">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="29dp"
+                android:alpha="0.5"
+                android:background="@drawable/drawable_radius_rectangle" />
+
+            <TextView
+                android:id="@+id/textTop2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="서버로부터 호출중입니다."
+                android:textAlignment="center"
+                android:textColor="#ffffff" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/frameTop4"
+            android:layout_width="368dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            map:layout_constraintTop_toBottomOf="@+id/frameTop3"
+            map:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            map:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginRight="8dp"
+            map:layout_constraintRight_toRightOf="parent">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="29dp"
+                android:alpha="0.5"
+                android:background="@drawable/drawable_radius_rectangle" />
+
+            <TextView
+                android:id="@+id/textTop3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="서버로부터 호출중입니다."
+                android:textAlignment="center"
+                android:textColor="#ffffff" />
+
+        </FrameLayout>
+    </android.support.constraint.ConstraintLayout>
+
+
 </FrameLayout>
