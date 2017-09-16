@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="사연제목"
+            android:id="@+id/EditSubject"
             android:textColor="#333"
             android:textSize="15sp" />
 

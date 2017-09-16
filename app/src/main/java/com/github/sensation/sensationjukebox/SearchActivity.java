@@ -24,6 +24,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     MusicListAdapter musicListAdapter;
     EditText searchEditText;
     Button searchButton;
+
+    public static String music = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

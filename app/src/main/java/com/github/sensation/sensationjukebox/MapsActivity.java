@@ -43,6 +43,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private TextView state;
     private TextView textContent;
 
+    public static String location1 = null;
+    public static String location2 = null;
+
     private GoogleMap mMap;
 
     double latitude = 37.824009;
@@ -118,8 +121,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Locale.setDefault(Locale.KOREA);
             Geocoder geocoder = new Geocoder(this);
             list = geocoder.getFromLocation(latitude, longitude, 1);
-        //    for(int i=0;i<list.size();i++)
-                Log.d("주소여러개",list.get(0).getAddressLine(0));
+            String tmp =  list.get(0).getAddressLine(0);
+            String cut[] = tmp.split(",");
+            location1 = cut[1];
+            location2 = cut[2];
             if(list.size() == 0){
                 //error 처리
             }
