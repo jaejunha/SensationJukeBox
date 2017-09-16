@@ -14,7 +14,7 @@ public class Play extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        startActivity(new Intent(this, MapsActivity.class));
+        startActivity(new Intent(this, ListDetail.class));
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
     }

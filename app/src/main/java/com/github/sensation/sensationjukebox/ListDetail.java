@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.github.sensation.sensationjukebox.youtube.YouTubeDemo;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -37,7 +38,7 @@ public class ListDetail extends AppCompatActivity{
     private LinearLayout layoutDetail;
 
     private FloatingActionButton fab;
-    private YouTubePlayerView youTubeVideo;
+    private YouTubeDemo youTubeDemo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,8 @@ public class ListDetail extends AppCompatActivity{
 
         buttonUp= (Button)findViewById(R.id.buttonUp);
         layoutDetail =(LinearLayout)findViewById(R.id.layoutDetail);
+
+        youTubeDemo = new YouTubeDemo();
 
         fab = (FloatingActionButton)findViewById(R.id.EditStory);
         fab.setOnClickListener(new View.OnClickListener() {
