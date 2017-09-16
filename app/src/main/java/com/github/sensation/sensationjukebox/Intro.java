@@ -21,14 +21,26 @@ public class Intro extends AppCompatActivity{
             public void run(){
 
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 startActivity(new Intent(context, TopActivity.class));
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                overridePendingTransition(R.anim.anim_alphain, R.anim.anim_alphaout);
                 finish();
             }
         }.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(R.anim.anim_alphain, R.anim.anim_alphaout);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(R.anim.anim_alphain, R.anim.anim_alphaout);
     }
 }
