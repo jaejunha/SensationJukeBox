@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.gc.materialdesign.views.ButtonRectangle;
+import com.github.sensation.sensationjukebox.DBServer.JsonTransferInsertStory;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,14 +23,13 @@ public class StoryEdit extends AppCompatActivity implements View.OnClickListener
     private ButtonRectangle cancel;
     private ButtonRectangle ok;
 
-    JsonTransfer jt;
+    JsonTransferInsertStory jt;
     SearchActivity sa;
     MapsActivity map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -48,7 +48,7 @@ public class StoryEdit extends AppCompatActivity implements View.OnClickListener
 
         storysubject = (EditText)findViewById(R.id.EditSubject);
 
-        jt = new JsonTransfer();
+        jt = new JsonTransferInsertStory();
         sa = new SearchActivity();
         map = new MapsActivity();
 
@@ -62,7 +62,7 @@ public class StoryEdit extends AppCompatActivity implements View.OnClickListener
 
                 String sendsubject = storysubject.getText().toString();
                 String sendcontent = storytext.getText().toString();
-                jt.doInBackground("http://45.76.100.46/insert_story.php", sendsubject, sendcontent, senddate, sa.music,
+                jt.execute("http://45.76.100.46/insert_story.php", sendsubject, sendcontent, senddate, sa.music,
                         map.location1, map.location2);
                 finish();
             }
