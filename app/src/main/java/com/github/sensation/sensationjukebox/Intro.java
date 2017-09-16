@@ -25,7 +25,7 @@ public class Intro extends AppCompatActivity{
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                startActivity(new Intent(context, MapsActivity.class));
+                startActivity(new Intent(context, TopActivity.class));
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
             }
