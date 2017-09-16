@@ -3,12 +3,14 @@ package com.github.sensation.sensationjukebox;
 import android.content.Intent;
 import android.graphics.Color;
 
+import com.github.sensation.sensationjukebox.DBServer.RemoteDBManager;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 
 import android.support.v4.app.FragmentActivity;
@@ -36,12 +38,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationChangeListener,
-        GoogleMap.OnMarkerClickListener {
+        GoogleMap.OnMarkerClickListener
+{
 
     private TextView state;
     private TextView textContent;
@@ -59,13 +66,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     double userlongitude;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        RemoteDBManager rdbm = new RemoteDBManager();
+        rdbm.execute("http://45.76.100.46/select_top3.php", "zone", "zone1", "top_rank", "3");
+
+        TextView top3TV = findViewById(R.id.textContent);
+        String []top3_music = new String[3];
+
+        try
+        {
+            while(!rdbm.done);
+            JSONArray jsonArray = new JSONArray(rdbm.getJsonResponse());
+            for(int i = 0; i < jsonArray.length(); i++)
+            {
+                JSONObject jObject = jsonArray.getJSONObject(i);  // JSONObject 추출
+                String musicName = jObject.getString("music_name");
+                top3_music[i] = musicName;
+            }
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
+        top3TV.setText(top3_music[0]+"\n"+top3_music[1]+"\n"+top3_music[2]+"\n");
     }
 
 
@@ -80,9 +113,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         //state = (TextView)findViewById(R.id.setState);
         mMap = googleMap;
-
         LatLng userposition = new LatLng(userlatitude, userlongitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(userposition));
         mMap.setMyLocationEnabled(true);
