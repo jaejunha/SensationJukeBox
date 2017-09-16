@@ -65,6 +65,11 @@
                     android:layout_height="wrap_content"
                     android:text="사연 내용 : "
                     android:textColor="@color/colorBase"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:text="▶"/>
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
