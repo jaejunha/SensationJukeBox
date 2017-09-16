@@ -15,6 +15,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.github.sensation.sensationjukebox.youtube.YouTubeDemo;
+import com.github.sensation.sensationjukebox.youtube.YouTubeFailureRecoveryActivity;
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
 import java.util.ArrayList;
@@ -33,8 +37,7 @@ public class ListDetail extends AppCompatActivity{
     private Button buttonUp;
     private Button buttonPlay;
     private LinearLayout layoutDetail;
-
-    private YouTubePlayerView youTubeVideo;
+    private YouTubeDemo youTubeDemo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +50,8 @@ public class ListDetail extends AppCompatActivity{
         buttonUp= (Button)findViewById(R.id.buttonUp);
         layoutDetail =(LinearLayout)findViewById(R.id.layoutDetail);
         buttonPlay = (Button)findViewById(R.id.buttonPlay);
-        youTubeVideo=(YouTubePlayerView) findViewById(R.id.youtube);
+
+        youTubeDemo = new YouTubeDemo();
 
         buttonUp.setOnClickListener(new View.OnClickListener() {
             @Override
