@@ -24,8 +24,8 @@ import java.util.ArrayList;
 public class ListDetail extends AppCompatActivity{
 
     private ListView listView;
-    private ArrayList<ListObject> list;
-    private ListAdapter adapter;
+    private ArrayList<StoryItem> storyItemArrayList;
+    private StoryListAdpater storyListAdpater;
     private Context context;
 
     private Button buttonUp;
@@ -38,12 +38,29 @@ public class ListDetail extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
-        listView = (ListView)findViewById(R.id.listView);
+        listView = (ListView)findViewById(R.id.detail_listView);
         this.context = getApplicationContext();
 
         buttonUp= (Button)findViewById(R.id.buttonUp);
         layoutDetail =(LinearLayout)findViewById(R.id.layoutDetail);
+
+        //-------임시로 데이터 만듬---------
+        storyItemArrayList = new ArrayList<StoryItem>();
+        StoryItem storyItem = new StoryItem();
+        storyItem.setSongName("꽃이 핀다");
+        storyItem.setStoryTitle("사랑에 빠졌습니다..");
+        storyItem.setStoryContent("물론 꿈에서 빠졌습니다.. ");
+        storyItemArrayList.add(storyItem);
+
+
+        StoryItem storyItem1 = new StoryItem();
+        storyItem1.setSongName("스토커");
+        storyItem1.setStoryTitle("좋아하는 사람이 있습니다.");
+        storyItem1.setStoryContent("저는 걔를 안좋아하는데 걔는 저를 안좋아해요..ㅠㅠ");
+        storyItemArrayList.add(storyItem1);
+        storyListAdpater = new StoryListAdpater(storyItemArrayList);
+        listView.setAdapter(storyListAdpater);
+        //------데이터베이스에서 읽어와야 되지만 값없어서 임시로 만듬--------
 
         fab = (FloatingActionButton)findViewById(R.id.EditStory);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -79,11 +96,11 @@ public class ListDetail extends AppCompatActivity{
         });
     }
 
-    public class ListAdapter extends BaseAdapter {
+    public class StoryListAdpater extends BaseAdapter {
 
-        ArrayList<ListObject> object;
+        ArrayList<StoryItem> object;
 
-        public ListAdapter(ArrayList<ListObject> object) {
+        public StoryListAdpater(ArrayList<StoryItem> object) {
             super();
             this.object = object;
         }
@@ -95,7 +112,7 @@ public class ListDetail extends AppCompatActivity{
 
         @Override
         public Object getItem(int position) {
-            return null;
+            return object.get(position);
         }
 
         @Override
@@ -116,6 +133,9 @@ public class ListDetail extends AppCompatActivity{
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
+            StoryItem storyItem = (StoryItem) getItem(position); //포지션 별로 값을 채워 줍니다.
+            holder.textMusic.setText(storyItem.getStoryTitle());
+            holder.textStory.setText(storyItem.getStoryContent());
             return convertView;
         }
 

@@ -27,9 +27,4 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="▶"/>
-    <SeekBar
-        android:id="@+id/seekMusic"
-        android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_height="wrap_content" />
 </RelativeLayout>
