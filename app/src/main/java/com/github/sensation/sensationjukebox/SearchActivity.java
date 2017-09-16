@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -24,6 +25,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     MusicListAdapter musicListAdapter;
     EditText searchEditText;
     Button searchButton;
+    ArrayList<MusicItem> musicArrayList;
 
     public static String music = null;
 
@@ -35,6 +37,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         listView = (ListView) findViewById(R.id.Musit_ListView);
         searchButton = (Button) findViewById(R.id.search_Button);
         searchButton.setOnClickListener(this);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                music = musicArrayList.get(position).getTitle();
+            }
+        });
 
         TextWatcher watcher = new TextWatcher() {
             @Override
@@ -76,7 +85,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 e.printStackTrace();
             }
             Elements links = doc.select("span.ellipsis");
-            ArrayList<MusicItem> musicArrayList = new ArrayList<MusicItem>();
+            musicArrayList = new ArrayList<MusicItem>();
             MusicItem musicItem = null;
             int count = 0;
             for (Element link : links) {
