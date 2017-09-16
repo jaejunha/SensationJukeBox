@@ -4,6 +4,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -65,6 +67,8 @@ public class ListDetail extends AppCompatActivity {
         songTitle = (TextView) findViewById(R.id.songTitle);
         seekBar = (SeekBar) findViewById(R.id.seekMusic);
 
+        seekBar.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+        seekBar.getThumb().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
 
         //-------임시로 데이터 만듬---------노래 임의로 때려박고 리스트에 값 추가한 작업.
         Field[] fields = R.raw.class.getFields();
