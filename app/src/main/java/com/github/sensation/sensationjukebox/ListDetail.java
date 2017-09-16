@@ -2,12 +2,9 @@ package com.github.sensation.sensationjukebox;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,10 +12,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.VideoView;
 
-import com.github.sensation.sensationjukebox.youtube.YouTubeDemo;
-import com.google.android.youtube.player.YouTubePlayerView;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -50,8 +44,6 @@ public class ListDetail extends AppCompatActivity{
 
         buttonUp= (Button)findViewById(R.id.buttonUp);
         layoutDetail =(LinearLayout)findViewById(R.id.layoutDetail);
-
-        startActivity(new Intent(context,YouTubeDemo.class));
 
         fab = (FloatingActionButton)findViewById(R.id.EditStory);
         fab.setOnClickListener(new View.OnClickListener() {

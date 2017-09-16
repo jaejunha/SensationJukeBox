@@ -46,8 +46,6 @@
             android:taskAffinity=":MapsActivity" />
         <activity android:name=".ListDetail" />
         <activity android:name=".StoryEdit"/>
-        <activity android:name=".youtube.YouTubeDemo"
-            android:theme="@android:style/Theme.Translucent"/>
     </application>
 
 </manifest>
