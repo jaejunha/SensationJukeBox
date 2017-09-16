@@ -73,6 +73,9 @@ public class ListDetail extends AppCompatActivity {
     String[] location2;
     private boolean isOpen = false;
     private static String jsontext = null;
+    private int jsoncount = 0;
+
+    MapsActivity maps;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -94,6 +97,8 @@ public class ListDetail extends AppCompatActivity {
         musicname = new String[100];
         location1 = new String[100];
         location2 = new String[100];
+
+        maps = new MapsActivity();
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -185,7 +190,8 @@ public class ListDetail extends AppCompatActivity {
             try {
                 JSONArray jsonArray = new JSONArray(jsontext);
                 Log.d("test", jsontext);
-                for (int i = 0; i < 3; i++) {
+                jsoncount = jsonArray.length();
+                for (int i = 0; i < jsonArray.length(); i++) {
                     storysub[i] = jsonArray.getJSONObject(i).getString("story_subject");
                     storycontent[i] = jsonArray.getJSONObject(i).getString("story_content");
                     musicname[i] = jsonArray.getJSONObject(i).getString("music_name");
@@ -200,7 +206,7 @@ public class ListDetail extends AppCompatActivity {
 
         storyItemArrayList = new ArrayList<StoryItem>();
 
-        for(int userlist = 0; userlist < 3; userlist++){
+        for(int userlist = 0; userlist < jsoncount; userlist++){
             StoryItem storyItem = new StoryItem();
             storyItem.setSongName(String.valueOf(musicname[userlist]));
             storyItem.setStoryTitle(String.valueOf(storysub[userlist]));
@@ -396,9 +402,11 @@ public class ListDetail extends AppCompatActivity {
     private boolean updateMetaInfo(){
         try{
             OkHttpClient client = new OkHttpClient();
-            String url = "http://45.76.100.46/select_top3.php";
+            String url = "http://45.76.100.46/select_all.php";
 
-            RequestBody body = new FormBody.Builder().build();
+            RequestBody body = new FormBody.Builder()
+                    .add("zone",maps.Listlocation)
+                    .build();
             Request request = new Request.Builder()
                     .url(url)
                     .post(body)
