@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">SensationJukeBox</string>
     <string name="title_activity_maps">Map</string>
-    <string name="current_top3_music">전국 Top 3 노래</string>
 </resources>
