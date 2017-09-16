@@ -43,13 +43,6 @@
                 fab:fab_colorNormal="@color/fabPrimary"
                 fab:fab_colorPressed="@color/fabPressed"
                 fab:fab_colorRipple="@color/fabRipple" />
-
-            <Button
-                android:id="@+id/buttonUp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:text="▲"/>
             <LinearLayout
                 android:id="@+id/layoutDetail"
                 android:layout_width="match_parent"
