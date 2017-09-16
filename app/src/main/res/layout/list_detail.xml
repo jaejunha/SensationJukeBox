@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout"
     android:layout_width="match_parent"
-    android:layout_height="550px">
+    android:padding="10dp"
+    android:layout_height="80dp">
     <TextView
         android:id="@+id/textStory"
         android:layout_width="0dp"
@@ -11,6 +12,7 @@
         android:layout_weight="2"
         android:textColor="#ffffff"
         android:text="사연 제목"/>
+
     <TextView
         android:id="@+id/textMusic"
         android:layout_width="0dp"
@@ -19,6 +21,7 @@
         android:layout_height="match_parent"
         android:textColor="#ffffff"
         android:text="노래 제목"/>
+
     <Button
         android:id="@+id/buttonPlay"
         android:layout_width="0dp"

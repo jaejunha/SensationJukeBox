@@ -13,7 +13,6 @@ public class Play extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         startActivity(new Intent(this, Intro.class));
         overridePendingTransition(R.anim.anim_alphain, R.anim.anim_alphaout);
         finish();

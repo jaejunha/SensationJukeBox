@@ -15,11 +15,13 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SeekBar;
@@ -46,9 +48,10 @@ import okhttp3.Response;
  * Created by dream on 2017-09-16.
  */
 
-public class ListDetail extends AppCompatActivity {
+public class ListDetail extends AppCompatActivity implements View.OnTouchListener {
 
     private ListView listView;
+    private ImageView gone;
     private ArrayList<StoryItem> storyItemArrayList;
     private StoryListAdpater storyListAdpater;
     private Context context;
@@ -92,15 +95,16 @@ public class ListDetail extends AppCompatActivity {
         storyContent = (TextView) findViewById(R.id.storyContent);
         songTitle = (TextView) findViewById(R.id.songTitle);
         seekBar = (SeekBar) findViewById(R.id.seekMusic);
-
+        gone = (ImageView) findViewById(R.id.gone);
         storysub = new String[100];
         storycontent = new String[100];
         musicname = new String[100];
         location1 = new String[100];
         location2 = new String[100];
-
         maps = new MapsActivity();
 
+        gone.setOnTouchListener(this);
+        listView.setOnTouchListener(this);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -336,6 +340,12 @@ public class ListDetail extends AppCompatActivity {
             //tv.setText("정지");
             buttonPlay.setText("II");
         }
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        gone.setVisibility(View.VISIBLE);
+        return false;
     }
 
     public class StoryListAdpater extends BaseAdapter {
