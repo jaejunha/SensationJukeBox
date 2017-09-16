@@ -14,6 +14,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.ResultCallback;
@@ -42,6 +45,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private TextView state;
     private TextView textContent;
+    private View view;
 
     public static String location1 = null;
     public static String location2 = null;
@@ -123,11 +127,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             list = geocoder.getFromLocation(latitude, longitude, 1);
             String tmp =  list.get(0).getAddressLine(0);
             String cut[] = tmp.split(",");
+            if(cut.length>1)
             location1 = cut[1];
+            if(cut.length>2)
             location2 = cut[2];
-            if(list.size() == 0){
-                //error 처리
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
