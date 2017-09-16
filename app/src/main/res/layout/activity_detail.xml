@@ -57,35 +57,88 @@
                 android:visibility="gone"
                 android:padding="5dp"
                 android:orientation="vertical">
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/storyTitle"
-                    android:text="사연 제목 : "
-                    android:textColor="@color/colorBase"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/songTitle"
-                    android:text="노래 제목 : "
-                    android:textColor="@color/colorBase"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/storyContent"
-                    android:text="사연 내용 : "
-                    android:textColor="@color/colorBase"/>
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="사연 제목:"
+                        android:textColor="@color/colorBase"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="5"
+                        android:layout_height="match_parent"
+                        android:id="@+id/storyTitle"
+                        android:gravity="center"
+                        android:textColor="@color/colorBase"/>
+                </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="노래 제목:"
+                        android:textColor="@color/colorBase"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="5"
+                        android:layout_height="match_parent"
+                        android:id="@+id/songTitle"
+                        android:gravity="center"
+                        android:text="노래 제목 : "
+                        android:textColor="@color/colorBase"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="사연 내용:"
+                        android:textColor="@color/colorBase"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="5"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:id="@+id/storyContent"
+                        android:textColor="@color/colorBase"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:gravity="center">
                 <Button
                     android:id="@+id/buttonPlay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_gravity="center"
                     android:text="▶"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
                 <SeekBar
                     android:id="@+id/seekMusic"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" />
+                </LinearLayout>
             </LinearLayout>
     </LinearLayout>
 </FrameLayout>
