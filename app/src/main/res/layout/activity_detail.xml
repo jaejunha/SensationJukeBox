@@ -136,9 +136,7 @@
                 <SeekBar
                     android:id="@+id/seekMusic"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:progressDrawable="@drawable/drawable_progress"
-                    android:thumb="@drawable/drawable_thumb"/>
+                    android:layout_height="match_parent"/>
                 </LinearLayout>
             </LinearLayout>
     </LinearLayout>
