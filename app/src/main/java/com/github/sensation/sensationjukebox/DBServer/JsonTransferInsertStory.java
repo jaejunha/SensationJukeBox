@@ -2,7 +2,6 @@ package com.github.sensation.sensationjukebox.DBServer;
 
 import android.os.AsyncTask;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -13,19 +12,15 @@ import okhttp3.RequestBody;
 ////////////////////////////////////////////////////////////////////
 public class JsonTransferInsertStory extends AsyncTask<String, Void, String>
 {
-
-    public static String strJson;
-
     @Override
-    protected String doInBackground(String... params) {
-        HttpURLConnection urlConnection;
+    protected String doInBackground(String... params)
+    {
         String Storyname = params[1];
         String Story = params[2];
         String date = params[3];
         String Musicname = params[4];
         String location1 = params[5];
         String location2 = params[6];
-        int count = 0;
 
         try {
             OkHttpClient client = new OkHttpClient();

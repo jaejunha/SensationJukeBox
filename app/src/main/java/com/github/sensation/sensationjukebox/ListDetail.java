@@ -74,7 +74,6 @@ public class ListDetail extends AppCompatActivity{
         storyItem.setUri(music2);
         storyItemArrayList.add(storyItem);
 
-
         StoryItem storyItem1 = new StoryItem();
         storyItem1.setSongName("스토커");
         storyItem1.setStoryTitle("좋아하는 사람이 있습니다.");
