@@ -74,6 +74,7 @@ public class ListDetail extends AppCompatActivity {
     private boolean isOpen = false;
     private static String jsontext = null;
     private int jsoncount = 0;
+    static StoryItem saveStoryItem = new StoryItem();
 
     MapsActivity maps;
 
@@ -114,7 +115,7 @@ public class ListDetail extends AppCompatActivity {
             //Log.e("노래", fields[count].getName());
             if (fields[count].getName().toString().contains("music1")) {
                 music1 = Uri.parse("android.resource://" + getPackageName() + "/raw/" + fields[count].getName());
-            } else if (fields[count].getName().toString().contains("music3")) {
+            } else if (fields[count].getName().toString().contains("music2")) {
                 music3 = Uri.parse("android.resource://" + getPackageName() + "/raw/" + fields[count].getName());
             }
         }
@@ -169,15 +170,15 @@ public class ListDetail extends AppCompatActivity {
                 }
             }
         });
-        open_Button.setOnClickListener(new View.OnClickListener(){
+        open_Button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                if(isOpen){
+                if (isOpen) {
                     layoutDetail.setVisibility(View.GONE);
                     open_Button.setText(" ^ ");
                     isOpen = false;
-                }else{
+                } else {
                     layoutDetail.setVisibility(View.VISIBLE);
                     open_Button.setText(" v ");
                     isOpen = true;
@@ -186,7 +187,7 @@ public class ListDetail extends AppCompatActivity {
         });
         updateMetaInfo();
 
-        if(jsontext != null) {
+        if (jsontext != null) {
             try {
                 JSONArray jsonArray = new JSONArray(jsontext);
                 Log.d("test", jsontext);
@@ -211,7 +212,11 @@ public class ListDetail extends AppCompatActivity {
             storyItem.setSongName(String.valueOf(musicname[userlist]));
             storyItem.setStoryTitle(String.valueOf(storysub[userlist]));
             storyItem.setStoryContent(String.valueOf(storycontent[userlist]));
-            storyItem.setUri(music3);
+            if (userlist == 2) {
+                storyItem.setUri(music3);
+            } else if (userlist == 0) {
+                storyItem.setUri(music1);
+            }
             storyItemArrayList.add(storyItem);
         }
         storyListAdpater = new StoryListAdpater(storyItemArrayList);
@@ -221,11 +226,28 @@ public class ListDetail extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (playIntent == null) {
-            Log.e("바인드","ㅎ1ㅎㅎ");
+        if(musicService.alive){
+            Log.e("바인드", "살아있었음");
             playIntent = new Intent(this, MusicService.class);
             isbind = bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
-            startService(playIntent);
+            seekBar.setMax(MusicService.player.getDuration());
+            seekBar.setProgress(MusicService.player.getCurrentPosition());
+            storyTitle.setText(saveStoryItem.getStoryTitle());
+            storyContent.setText(saveStoryItem.getStoryContent());
+            songTitle.setText(saveStoryItem.getSongName());
+            if(MusicService.player.isPlaying()) {
+                musicStarted = true;
+                buttonPlay.setText("II");
+            }
+
+        }else {
+            if (playIntent == null) {
+                Log.e("바인드", "ㅎ1ㅎㅎ");
+                playIntent = new Intent(this, MusicService.class);
+                isbind = bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+                musicService.alive = true;
+                startService(playIntent);
+            }
         }
     }
 
@@ -234,7 +256,7 @@ public class ListDetail extends AppCompatActivity {
         super.onResume();
         if (!isbind) {
             isbind = bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
-            Log.e("다시바인드","ㅎㅎㅎ");/*
+            Log.e("다시바인드", "ㅎㅎㅎ");/*
             if(musicService.start){
                 seekBar.setMax(musicService.getDuration());
             }*/
@@ -365,11 +387,15 @@ public class ListDetail extends AppCompatActivity {
                     storyTitle.setText(getItem(position).getStoryTitle());
                     storyContent.setText(getItem(position).getStoryContent());
                     songTitle.setText(getItem(position).getSongName());
-                    playSong(getItem(position).getUri());
                     buttonPlay.setText("II");
                     layoutDetail.setVisibility(View.VISIBLE);
                     open_Button.setText(" v ");
                     isOpen = true;
+                    saveStoryItem.setStoryTitle(getItem(position).getStoryTitle());
+                    saveStoryItem.setSongName(getItem(position).getSongName());
+                    saveStoryItem.setStoryContent(getItem(position).getStoryContent());
+                    saveStoryItem.setUri(getItem(position).getUri());
+                    playSong(getItem(position).getUri());
                 }
             });
 
@@ -399,8 +425,8 @@ public class ListDetail extends AppCompatActivity {
 
     }
 
-    private boolean updateMetaInfo(){
-        try{
+    private boolean updateMetaInfo() {
+        try {
             OkHttpClient client = new OkHttpClient();
             String url = "http://45.76.100.46/select_all.php";
 
@@ -416,7 +442,7 @@ public class ListDetail extends AppCompatActivity {
             jsontext = response.body().string();
 
             return true;
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return false;
