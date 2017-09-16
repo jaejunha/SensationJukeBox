@@ -39,6 +39,13 @@ public class StoryEdit extends AppCompatActivity implements View.OnClickListener
         SongSearch_Button.setOnClickListener(this);
 
         storytext = (EditText)findViewById(R.id.editText);
+        storytext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                storytext.setText(" ");
+            }
+        });
+
         storysubject = (EditText)findViewById(R.id.EditSubject);
 
         jt = new JsonTransfer();
