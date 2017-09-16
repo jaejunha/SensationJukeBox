@@ -7,9 +7,11 @@ import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.StrictMode;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -64,14 +66,15 @@ public class ListDetail extends AppCompatActivity {
     static boolean threadrunning = true;
     boolean isbind = false;
 
-    private String[] storysub;
-    private String[] storycontent;
-    private String[] musicname;
-    private String[] location1;
-    private String[] location2;
+    String[] storysub;
+    String[] storycontent;
+    String[] musicname;
+    String[] location1;
+    String[] location2;
 
-    private String jsontext = null;
+    private static String jsontext = null;
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +87,12 @@ public class ListDetail extends AppCompatActivity {
         storyContent = (TextView) findViewById(R.id.storyContent);
         songTitle = (TextView) findViewById(R.id.songTitle);
         seekBar = (SeekBar) findViewById(R.id.seekMusic);
+
+        storysub = new String[100];
+        storycontent = new String[100];
+        musicname = new String[100];
+        location1 = new String[100];
+        location2 = new String[100];
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -103,25 +112,6 @@ public class ListDetail extends AppCompatActivity {
                 music3 = Uri.parse("android.resource://" + getPackageName() + "/raw/" + fields[count].getName());
             }
         }
-        storyItemArrayList = new ArrayList<StoryItem>();
-        StoryItem storyItem = new StoryItem();
-        storyItem.setSongName("꽃이 핀다");
-        storyItem.setStoryTitle("사랑에 빠졌습니다..");
-        storyItem.setStoryContent("물론 상상속의 그녀와... ");
-        storyItem.setUri(music3);
-        storyItemArrayList.add(storyItem);
-
-
-        StoryItem storyItem1 = new StoryItem();
-        storyItem1.setSongName("스토커");
-        storyItem1.setStoryTitle("좋아하는 사람이 있습니다.");
-        storyItem1.setStoryContent("짝사랑을 하고있습니다..고민좀 들어주세요ㅠㅠ");
-        storyItem1.setUri(music1);
-        storyItemArrayList.add(storyItem1);
-        storyListAdpater = new StoryListAdpater(storyItemArrayList);
-        listView.setAdapter(storyListAdpater);
-        //------데이터베이스에서 읽어와야 되지만 값없어서 임시로 만듬--------
-
 
         fab = (FloatingActionButton) findViewById(R.id.EditStory);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -175,6 +165,36 @@ public class ListDetail extends AppCompatActivity {
         });
 
         updateMetaInfo();
+
+        if(jsontext != null) {
+            try {
+                JSONArray jsonArray = new JSONArray(jsontext);
+                Log.d("test", jsontext);
+                for (int i = 0; i < 3; i++) {
+                    storysub[i] = jsonArray.getJSONObject(i).getString("story_subject");
+                    storycontent[i] = jsonArray.getJSONObject(i).getString("story_content");
+                    musicname[i] = jsonArray.getJSONObject(i).getString("music_name");
+                    location1[i] = jsonArray.getJSONObject(i).getString("location1");
+                    location2[i] = jsonArray.getJSONObject(i).getString("location2");
+                    Log.d("test", "" + storysub[i] + storycontent[i] + musicname[i] + location1[i] + location2[i]);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        storyItemArrayList = new ArrayList<StoryItem>();
+
+        for(int userlist = 0; userlist < 3; userlist++){
+            StoryItem storyItem = new StoryItem();
+            storyItem.setSongName(String.valueOf(musicname[userlist]));
+            storyItem.setStoryTitle(String.valueOf(storysub[userlist]));
+            storyItem.setStoryContent(String.valueOf(storycontent[userlist]));
+            storyItem.setUri(music3);
+            storyItemArrayList.add(storyItem);
+        }
+        storyListAdpater = new StoryListAdpater(storyItemArrayList);
+        listView.setAdapter(storyListAdpater);
     }
 
     @Override
@@ -360,18 +380,14 @@ public class ListDetail extends AppCompatActivity {
             OkHttpClient client = new OkHttpClient();
             String url = "http://45.76.100.46/select_top3.php";
 
-            RequestBody body = new FormBody.Builder()
-                    .build();
+            RequestBody body = new FormBody.Builder().build();
             Request request = new Request.Builder()
                     .url(url)
                     .post(body)
                     .build();
-            client.newCall(request).execute();
-
             Response response = client.newCall(request).execute();
 
             jsontext = response.body().string();
-            Log.d("response : ", response.body().string());
 
             return true;
         }catch (IOException e){
