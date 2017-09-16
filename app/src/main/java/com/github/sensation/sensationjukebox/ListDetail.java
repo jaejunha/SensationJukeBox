@@ -1,9 +1,12 @@
 package com.github.sensation.sensationjukebox;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,34 +30,43 @@ import java.util.ArrayList;
  * Created by dream on 2017-09-16.
  */
 
-public class ListDetail extends AppCompatActivity{
+public class ListDetail extends AppCompatActivity {
 
     private ListView listView;
     private ArrayList<StoryItem> storyItemArrayList;
     private StoryListAdpater storyListAdpater;
     private Context context;
     private Button buttonUp;
+    private Button buttonPlay;
     private LinearLayout layoutDetail;
     private FloatingActionButton fab;
     private TextView storyTitle;
     private TextView storyContent;
     private TextView songTitle;
     private SeekBar seekBar;
+    MusicService musicService;
+    private Intent playIntent;
+    private boolean musicStarted = false;
+    musicThread musicthread;
+    static boolean threadrunning = true;
+    boolean isbind = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         listView = (ListView) findViewById(R.id.detail_listView);
         this.context = getApplicationContext();
-
+        buttonPlay = (Button) findViewById(R.id.buttonPlay);
         buttonUp = (Button) findViewById(R.id.buttonUp);
         layoutDetail = (LinearLayout) findViewById(R.id.layoutDetail);
         storyTitle = (TextView) findViewById(R.id.storyTitle);
         storyContent = (TextView) findViewById(R.id.storyContent);
         songTitle = (TextView) findViewById(R.id.songTitle);
+        seekBar = (SeekBar) findViewById(R.id.seekMusic);
 
-        //-------임시로 데이터 만듬---------
 
+        //-------임시로 데이터 만듬---------노래 임의로 때려박고 리스트에 값 추가한 작업.
         Field[] fields = R.raw.class.getFields();
         Uri music1 = null;
         Uri music2 = null;
@@ -70,7 +82,7 @@ public class ListDetail extends AppCompatActivity{
         StoryItem storyItem = new StoryItem();
         storyItem.setSongName("꽃이 핀다");
         storyItem.setStoryTitle("사랑에 빠졌습니다..");
-        storyItem.setStoryContent("물론 꿈에서 빠졌습니다.. ");
+        storyItem.setStoryContent("물론 상상속의 그녀와... ");
         storyItem.setUri(music2);
         storyItemArrayList.add(storyItem);
 
@@ -78,7 +90,7 @@ public class ListDetail extends AppCompatActivity{
         StoryItem storyItem1 = new StoryItem();
         storyItem1.setSongName("스토커");
         storyItem1.setStoryTitle("좋아하는 사람이 있습니다.");
-        storyItem1.setStoryContent("저는 걔를 안좋아하는데 걔는 저를 안좋아해요..ㅠㅠ");
+        storyItem1.setStoryContent("짝사랑을 하고있습니다..고민좀 들어주세요ㅠㅠ");
         storyItem1.setUri(music1);
         storyItemArrayList.add(storyItem1);
         storyListAdpater = new StoryListAdpater(storyItemArrayList);
@@ -108,21 +120,116 @@ public class ListDetail extends AppCompatActivity{
                 }
             }
         });
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser)
+                    musicService.musicSeekTo(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        buttonPlay.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                if (musicStarted == false) {
+                    storyTitle.setText("");
+                    storyContent.setText("");
+                    songTitle.setText("재생할 곡을 선택해주세요.");
+                } else {
+                    if (musicService.isPlaying()) {
+                        musicService.musicPause();
+                        buttonPlay.setText("▶");
+                    } else {
+                        musicService.musicStart();
+                        if (!musicthread.isAlive()) {
+                            musicthread = new musicThread();
+                            musicthread.start();
+                        }
+                        buttonPlay.setText("II");
+                    }
+                }
+            }
+        });
     }
 
-    /*public void playSong(Uri songPath) {
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (playIntent == null) {
+            playIntent = new Intent(this, MusicService.class);
+            isbind = bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
+            startService(playIntent);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (isbind) {
+            unbindService(musicConnection);
+            isbind = false;
+        }
+        stopService(playIntent);
+        threadrunning = false;
+    }
+
+    public void playSong(Uri songPath) {
         try {
             musicService.musicReset();
             //player = MediaPlayer.create(this, songPath);//노래 다 끊고 새로운 노래로 갱신.
             musicService.setPlayer(songPath);
-            seekbar.setMax(musicService.getDuration());
-            seekbar.setProgress(0);
+            seekBar.setMax(musicService.getDuration());
+            seekBar.setProgress(0);
 
             play(null);
         } catch (Exception e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+
+    private ServiceConnection musicConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MusicService.MusicBinder binder = (MusicService.MusicBinder) service;
+            musicService = binder.getService();
+            //seekBar.setMax(musicService.getDuration());
+            //seekBar.setProgress(musicService.getCurrentPosition());
+/*
+            if(musicService.isPlaying() == false && musicService.getCurrentPosition() != 0){
+                //tv.setText("정지");
+            }
+            else if(musicService.isPlaying() == true){
+                //tv.setText("재생중");
+            }*/
+
+            threadrunning = true;
+            musicthread = new musicThread();
+            musicthread.start();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
 
     public void play(View view) {
         if (!musicService.isPlaying()) {
@@ -131,17 +238,20 @@ public class ListDetail extends AppCompatActivity{
                 musicthread = new musicThread();
                 musicthread.start();
             }
-            tv = (TextView) this.findViewById(R.id.playStatus);
-            tv.setText("재생중");
+            //tv = (TextView) this.findViewById(R.id.playStatus);//실행 상태 나타나는
+            //tv.setText("재생중");
+            musicStarted = true;
+            buttonPlay.setText("II");
         }
     }
 
     public void stop(View view) {
         if (musicService.isPlaying()) {
             musicService.musicPause();
-            tv.setText("정지");
+            //tv.setText("정지");
+            buttonPlay.setText("II");
         }
-    }*/
+    }
 
     public class StoryListAdpater extends BaseAdapter {
 
@@ -184,7 +294,7 @@ public class ListDetail extends AppCompatActivity{
             StoryItem storyItem = (StoryItem) getItem(position); //포지션 별로 값을 채워 줍니다.
             holder.textMusic.setText(storyItem.getSongName());
             holder.textStory.setText(storyItem.getStoryTitle());
-            holder.playButton.setOnClickListener(new View.OnClickListener(){
+            holder.playButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
@@ -193,7 +303,8 @@ public class ListDetail extends AppCompatActivity{
                     storyTitle.setText(getItem(position).getStoryTitle());
                     storyContent.setText(getItem(position).getStoryContent());
                     songTitle.setText(getItem(position).getSongName());
-
+                    playSong(getItem(position).getUri());
+                    buttonPlay.setText("II");
                 }
             });
 
@@ -204,5 +315,22 @@ public class ListDetail extends AppCompatActivity{
             TextView textStory, textMusic;
             Button playButton;
         }
+    }
+
+    class musicThread extends Thread {
+        public void run() {
+            while (musicService.isPlaying() && threadrunning) {//이게 멈춰도 상관없고, 진행중이여도 싱크 잘 맞음.
+                try {
+                    seekBar.setProgress(musicService.getCurrentPosition());
+                    Thread.sleep(1000);
+                    Log.e("스레드 도는중.", "입니다");
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            Log.e("스레드 끝.", "입니다");
+        }
+
     }
 }

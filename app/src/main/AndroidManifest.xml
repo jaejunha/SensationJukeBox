@@ -49,6 +49,17 @@
         <activity android:name=".ListDetail" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".StoryEdit"/>
+        <service android:name=".MusicService">
+
+            <intent-filter>
+
+                <action android:name="service"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+            </intent-filter>
+
+        </service>
     </application>
 
 </manifest>
