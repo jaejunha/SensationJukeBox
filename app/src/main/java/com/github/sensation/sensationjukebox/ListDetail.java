@@ -47,7 +47,7 @@ public class ListDetail extends AppCompatActivity{
         buttonUp= (Button)findViewById(R.id.buttonUp);
         layoutDetail =(LinearLayout)findViewById(R.id.layoutDetail);
         buttonPlay = (Button)findViewById(R.id.buttonPlay);
-        youTubeVideo=(YouTubePlayerView) findViewById(R.id.youtube);
+      //  youTubeVideo=(YouTubePlayerView) findViewById(R.id.youtube);
 
         buttonUp.setOnClickListener(new View.OnClickListener() {
             @Override

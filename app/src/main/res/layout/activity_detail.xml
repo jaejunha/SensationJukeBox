@@ -65,12 +65,9 @@
                     android:layout_height="wrap_content"
                     android:text="사연 내용 : "
                     android:textColor="@color/colorBase"/>
-                <com.google.android.youtube.player.YouTubePlayerView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/youtube"></com.google.android.youtube.player.YouTubePlayerView>
 
                 <Button
+                    android:id="@+id/buttonPlay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|bottom"
