@@ -125,24 +125,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Locale.setDefault(Locale.KOREA);
             Geocoder geocoder = new Geocoder(this);
             list = geocoder.getFromLocation(latitude, longitude, 1);
-<<<<<<< HEAD
+
             String tmp = list.get(0).getAddressLine(0);
             String cut[] = tmp.split(" ");
-=======
-            String tmp =  list.get(0).getAddressLine(0);
-            String cut[] = tmp.split(",");
-            if(cut.length>1)
->>>>>>> 48b45a4af930fbb53f15a8d131bc9dc53b186317
-            location1 = cut[1];
-            if(cut.length>2)
-            location2 = cut[2];
-<<<<<<< HEAD
+            if (cut.length > 1)
+                location1 = cut[1];
+            if (cut.length > 2)
+                location2 = cut[2];
+
             Log.e("test", "" + location1 + location2);
             if (list.size() == 0) {
                 //error 처리
             }
-=======
->>>>>>> 48b45a4af930fbb53f15a8d131bc9dc53b186317
         } catch (IOException e) {
             e.printStackTrace();
         }

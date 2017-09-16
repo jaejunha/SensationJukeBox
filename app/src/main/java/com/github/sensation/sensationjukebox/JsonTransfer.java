@@ -58,7 +58,6 @@ public class JsonTransfer extends AsyncTask<String, Void, String> {
                     .url(params[0])
                     .post(body)
                     .build();
-            client.newCall(request).enqueue(callback);
             client.newCall(request).execute();
         } catch (IOException e) {
             e.printStackTrace();
@@ -66,18 +65,6 @@ public class JsonTransfer extends AsyncTask<String, Void, String> {
 
         return null;
     }
-
-    private Callback callback = new Callback() {
-        @Override
-        public void onFailure(Call call, IOException e) {
-
-        }
-
-        @Override
-        public void onResponse(Call call, Response response) throws IOException {
-
-        }
-    };
 
     @Override
     protected void onPostExecute(String result) {
