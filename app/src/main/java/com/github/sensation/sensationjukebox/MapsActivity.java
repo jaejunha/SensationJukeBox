@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationChangeListener,
-        GoogleMap.OnMarkerClickListener{
+        GoogleMap.OnMarkerClickListener {
 
     private TextView state;
     private TextView textContent;
@@ -63,7 +63,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        textContent = (TextView)findViewById(R.id.textContent);
+        textContent = (TextView) findViewById(R.id.textContent);
         textContent.setText("< 통합 Top 3 >");
     }
 
@@ -121,11 +121,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Locale.setDefault(Locale.KOREA);
             Geocoder geocoder = new Geocoder(this);
             list = geocoder.getFromLocation(latitude, longitude, 1);
-            String tmp =  list.get(0).getAddressLine(0);
-            String cut[] = tmp.split(",");
+            String tmp = list.get(0).getAddressLine(0);
+            String cut[] = tmp.split(" ");
             location1 = cut[1];
             location2 = cut[2];
-            if(list.size() == 0){
+            Log.e("test", "" + location1 + location2);
+            if (list.size() == 0) {
                 //error 처리
             }
         } catch (IOException e) {
@@ -135,29 +136,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMyLocationChange(Location location) {
-        userlatitude=location.getLatitude();
-        userlongitude=location.getLongitude();
+        userlatitude = location.getLatitude();
+        userlongitude = location.getLongitude();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(userlatitude, userlongitude), 18));
-                if(distance(userlatitude, userlongitude, latitude, longitude) <=50 &&
-                distance(userlatitude, userlongitude, latitude, longitude) >=-50){
-                //state.setText("Change");
-                }else{
-                //state.setText("test");
-                }
-                }
+        if (distance(userlatitude, userlongitude, latitude, longitude) <= 50 &&
+                distance(userlatitude, userlongitude, latitude, longitude) >= -50) {
+            //state.setText("Change");
+        } else {
+            //state.setText("test");
+        }
+    }
 
-@Override
-public boolean onMarkerClick(Marker marker) {
+    @Override
+    public boolean onMarkerClick(Marker marker) {
         Intent jump = new Intent(this, ListDetail.class);
         startActivity(jump);
         return false;
-        }
+    }
 
-public double distance(double lat1, double lon1, double lat2, double lon2){
+    public double distance(double lat1, double lon1, double lat2, double lon2) {
         double theta, distance;
         theta = lon1 - lon2;
         distance = Math.sin(degtorad(lat1)) * Math.sin(degtorad(lat2)) + Math.cos(degtorad(lat1))
-        * Math.cos(degtorad(lat2)) * Math.cos(degtorad(theta));
+                * Math.cos(degtorad(lat2)) * Math.cos(degtorad(theta));
         distance = Math.acos(distance);
         distance = radtodeg(distance);
 
@@ -166,15 +167,15 @@ public double distance(double lat1, double lon1, double lat2, double lon2){
         distance = distance * 1000.0;      // 단위  km 에서 m 로 변환
 
         return distance;
-        }
+    }
 
-// 주어진 도(degree) 값을 라디언으로 변환
-private double degtorad(double deg){
-        return (double)(deg * Math.PI / (double)180d);
-        }
+    // 주어진 도(degree) 값을 라디언으로 변환
+    private double degtorad(double deg) {
+        return (double) (deg * Math.PI / (double) 180d);
+    }
 
-// 주어진 라디언(radian) 값을 도(degree) 값으로 변환
-private double radtodeg(double rad){
-        return (double)(rad * (double)180d / Math.PI);
-        }
-        }
+    // 주어진 라디언(radian) 값을 도(degree) 값으로 변환
+    private double radtodeg(double rad) {
+        return (double) (rad * (double) 180d / Math.PI);
+    }
+}

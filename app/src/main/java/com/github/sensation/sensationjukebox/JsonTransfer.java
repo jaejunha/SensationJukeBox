@@ -18,6 +18,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 //////////////////////////////////////////////////////////////////////
 //     To connect with the server, This class is called.           //
 ////////////////////////////////////////////////////////////////////
@@ -37,61 +45,39 @@ public class JsonTransfer extends AsyncTask<String, Void, String> {
         int count = 0;
 
         try {
-            Date senddate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-        } catch (ParseException e) {
+            OkHttpClient client = new OkHttpClient();
+            RequestBody body = new FormBody.Builder()
+                    .add("story_subject",Storyname)
+                    .add("story_content", Story)
+                    .add("date", date)
+                    .add("music_name", Musicname)
+                    .add("location1", location1)
+                    .add("location2", location2)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(params[0])
+                    .post(body)
+                    .build();
+            client.newCall(request).enqueue(callback);
+            client.newCall(request).execute();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Log.e("test", Storyname + Story + date + Musicname + location1 + location2);
-
-        String result = null;
-        try{
-            //To connect with server, Setting this option
-            urlConnection = (HttpURLConnection) ((new URL(params[0]).openConnection()));
-            urlConnection.setDoOutput(true);
-            //      urlConnection.setDoInput(true);
-            urlConnection.setReadTimeout(10000); //10000ms
-            urlConnection.setConnectTimeout(15000); //15000ms
-            urlConnection.setRequestProperty("Accept-Charset", "UTF-8"); // Accept-Charset 설정.
-            urlConnection.setRequestProperty("Context_Type", "application/x-www-form-urlencoded;cahrset=UTF-8");
-            urlConnection.setRequestMethod("POST");
-
-            //Write the data from the server
-            OutputStream outputStream = urlConnection.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
-            writer.write(Storyname);
-            writer.write(Story);
-            writer.write(date);
-            writer.write(Musicname);
-            writer.write(location1);
-            writer.write(location2);
-            writer.write(count);
-            writer.close();
-            outputStream.close();
-
-            //Read the data
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
-            String line = null;
-            StringBuilder sb = new StringBuilder();
-
-            while((line = bufferedReader.readLine()) != null){
-                sb.append(line);
-                Log.d("line",line);
-            }
-
-            bufferedReader.close();
-            result = sb.toString();
-            //To use another class, Set the value in the global value
-            strJson = result;
-        }catch (UnsupportedEncodingException e){
-            e.printStackTrace();
-        } catch(FileNotFoundException e){
-            e.printStackTrace();
-        } catch (IOException e){
-            e.printStackTrace();
-        }catch (Exception e){e.printStackTrace();}
-        return result;
+        return null;
     }
+
+    private Callback callback = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+
+        }
+    };
 
     @Override
     protected void onPostExecute(String result) {

@@ -27,6 +27,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     Button searchButton;
     ArrayList<MusicItem> musicArrayList;
 
+    StoryEdit sd;
+
     public static String music = null;
 
     @Override
@@ -38,10 +40,14 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         searchButton = (Button) findViewById(R.id.search_Button);
         searchButton.setOnClickListener(this);
 
+        sd = new StoryEdit();
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 music = musicArrayList.get(position).getTitle();
+                sd.SetMusic(music);
+                finish();
             }
         });
 

@@ -30,6 +30,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.github.florent37:materialtextfield:1.0.7'
     compile 'com.melnykov:floatingactionbutton:1.3.0'
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
     testCompile 'junit:junit:4.12'
     compile project(':YouTubeAndroidPlayerApi')
     compile project(':jsoup-1.10.3')
