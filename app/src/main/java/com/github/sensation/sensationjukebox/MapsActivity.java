@@ -31,18 +31,15 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationChangeListener,
-                GoogleMap.OnMarkerClickListener{
+        GoogleMap.OnMarkerClickListener{
 
     private TextView state;
+    private TextView textContent;
 
     private GoogleMap mMap;
 
     double latitude = 37.824009;
     double longitude = 127.597996;
-    private TextView textContent;
-
-    private Marker currentMarker = null;
-    private GoogleMap googleMap = null;
 
     double userlatitude;
     double userlongitude;
@@ -72,7 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        state = (TextView)findViewById(R.id.setState);
+        //state = (TextView)findViewById(R.id.setState);
         mMap = googleMap;
 
         LatLng userposition = new LatLng(userlatitude, userlongitude);
@@ -116,15 +113,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(userlatitude, userlongitude), 18));
         if(distance(userlatitude, userlongitude, latitude, longitude) <=50 &&
                 distance(userlatitude, userlongitude, latitude, longitude) >=-50){
-            state.setText("Change");
+            //state.setText("Change");
         }else{
-            state.setText("test");
+            //state.setText("test");
         }
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        Intent jump = new Intent(this, ListDetail.class);
+        Intent jump = new Intent(this, StoryEdit.class);
         startActivity(jump);
         return false;
     }
