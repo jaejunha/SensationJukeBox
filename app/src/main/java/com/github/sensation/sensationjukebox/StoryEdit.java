@@ -9,7 +9,6 @@ import com.gc.materialdesign.views.ButtonRectangle;
 
 public class StoryEdit extends AppCompatActivity implements View.OnClickListener{
     Button SongSearch_Button;
-
     private ButtonRectangle cancel;
 
     @Override
