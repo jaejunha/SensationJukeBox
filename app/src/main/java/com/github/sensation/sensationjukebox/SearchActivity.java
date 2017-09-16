@@ -3,6 +3,9 @@ package com.github.sensation.sensationjukebox;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +32,24 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         listView = (ListView) findViewById(R.id.Musit_ListView);
         searchButton = (Button) findViewById(R.id.search_Button);
         searchButton.setOnClickListener(this);
+
+        TextWatcher watcher = new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (searchEditText.isFocusable()) {
+                    new melonAsync().execute(searchEditText.getText().toString(), null, null);
+                }
+            }
+        };
+        searchEditText.addTextChangedListener(watcher);
     }
 
     @Override
