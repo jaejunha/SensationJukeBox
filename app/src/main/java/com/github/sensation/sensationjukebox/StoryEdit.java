@@ -7,16 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import com.gc.materialdesign.views.ButtonRectangle;
 
-<<<<<<< HEAD
-import com.gc.materialdesign.views.ButtonRectangle;
-
-public class StoryEdit extends AppCompatActivity implements View.OnClickListener{
-    Button SongSearch_Button;
-=======
 public class StoryEdit extends AppCompatActivity implements View.OnClickListener{
     Button SongSearch_Button;
 
->>>>>>> master
     private ButtonRectangle cancel;
 
     @Override
