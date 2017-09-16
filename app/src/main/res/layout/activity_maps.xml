@@ -29,11 +29,8 @@
                 android:layout_height="29dp"
                 android:alpha="0.5"
                 android:background="@drawable/drawable_radius_rectangle" />
-<<<<<<< HEAD
-            <RelativeLayout
-=======
+
             <LinearLayout
->>>>>>> 1d6ea7369fb4561fe428eba0e3ed42f6f8bdfa29
                 android:layout_width="wrap_content"
                 android:layout_height="29dp"
                 android:orientation="vertical">
@@ -51,10 +48,6 @@
                     android:padding="5dp"
                     android:textAlignment="center"
                     android:textColor="#ffffff" />
-<<<<<<< HEAD
-            </RelativeLayout>
-=======
             </LinearLayout>
->>>>>>> 1d6ea7369fb4561fe428eba0e3ed42f6f8bdfa29
         </FrameLayout>
 </FrameLayout>
