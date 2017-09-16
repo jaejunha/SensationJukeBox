@@ -1,6 +1,7 @@
 package com.github.sensation.sensationjukebox;
 
 import android.content.Context;
+import android.content.Intent;
 import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.google.android.youtube.player.YouTubePlayerView;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -34,6 +36,7 @@ public class ListDetail extends AppCompatActivity{
     private Button buttonPlay;
     private LinearLayout layoutDetail;
 
+    private FloatingActionButton fab;
     private YouTubePlayerView youTubeVideo;
 
     @Override
@@ -46,6 +49,16 @@ public class ListDetail extends AppCompatActivity{
 
         buttonUp= (Button)findViewById(R.id.buttonUp);
         layoutDetail =(LinearLayout)findViewById(R.id.layoutDetail);
+
+        fab = (FloatingActionButton)findViewById(R.id.EditStory);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent change = new Intent(ListDetail.this, StoryEdit.class);
+                startActivity(change);
+            }
+        });
+
         buttonPlay = (Button)findViewById(R.id.buttonPlay);
       //  youTubeVideo=(YouTubePlayerView) findViewById(R.id.youtube);
 
