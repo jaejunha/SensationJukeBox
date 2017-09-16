@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
                 android:layout_margin="16dp"
-                android:src="@drawable/ic_email_white_24dp"
+                android:src="@drawable/ic_action_new"
                 fab:fab_colorNormal="@color/fabPrimary"
                 fab:fab_colorPressed="@color/fabPressed"
                 fab:fab_colorRipple="@color/fabRipple" />
