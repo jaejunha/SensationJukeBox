@@ -76,33 +76,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-<<<<<<< HEAD
-=======
-
-        RemoteDBManager rdbm = new RemoteDBManager();
-        rdbm.execute("http://45.76.100.46/select_top3.php", "zone", "zone1", "top_rank", "3");
-
-        TextView top3TV = findViewById(R.id.textContent);
-        String []top3_music = new String[3];
-
-        try
-        {
-            while(!rdbm.done);
-            JSONArray jsonArray = new JSONArray(rdbm.getJsonResponse());
-            for(int i = 0; i < jsonArray.length(); i++)
-            {
-                JSONObject jObject = jsonArray.getJSONObject(i);  // JSONObject 추출
-                String musicName = jObject.getString("music_name");
-                top3_music[i] = musicName;
-            }
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-
-        top3TV.setText(top3_music[0]+"\n"+top3_music[1]+"\n"+top3_music[2]+"\n");
->>>>>>> parent of 3fc209d... Fix Map_layout
     }
 
 
@@ -150,7 +123,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         CircleOptions circle1KM = new CircleOptions().center(position) //원점
                 .radius(50)      //반지름 단위 : m
                 .strokeWidth(0f)  //선너비 0f : 선없음
-                .fillColor(Color.parseColor("#880000ff")); //배경색
+                .fillColor(Color.parseColor("#88ff99cc")); //배경색
 
         //마커추가
         this.mMap.addMarker(mymarker);
@@ -188,7 +161,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     //마커 , 원추가(location 2)
     public void onAddMarker2() {
-        LatLng position = new LatLng(latitude + 0.005, longitude + 0.005);
+        LatLng position = new LatLng(latitude + 0.0005, longitude + 0.0005);
 
         //나의위치 마커
         MarkerOptions mymarker = new MarkerOptions()
@@ -198,7 +171,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         CircleOptions circle1KM = new CircleOptions().center(position) //원점
                 .radius(50)      //반지름 단위 : m
                 .strokeWidth(0f)  //선너비 0f : 선없음
-                .fillColor(Color.parseColor("#880000ff")); //배경색
+                .fillColor(Color.parseColor("#88ffffcc")); //배경색
 
         //마커추가
         this.mMap.addMarker(mymarker);
@@ -289,11 +262,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(userlatitude, userlongitude), 18));
         if (distance(userlatitude, userlongitude, latitude, longitude) <= 50 &&
                 distance(userlatitude, userlongitude, latitude, longitude) >= -50) {
-            textcontent.setText("강촌 TOP3 사연");
+            textcontent.setText("강촌 수련원 TOP3 사연");
             connect("zone1");
+        } else if(distance(userlatitude, userlongitude, latitude + 0.0005, longitude + 0.0005) <= 50 &&
+                distance(userlatitude, userlongitude, latitude + 0.0005, longitude + 0.0005) >= -50) {
+            textcontent.setText("강총 수련원 입구 TOP3 사연");
+            connect("zone2");
         } else {
             textcontent.setText("전국 TOP3 사연");
-            connect("zone2");
+            connect("zone3");
         }
     }
 
@@ -364,7 +341,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 e.printStackTrace();
             }
 
-            top3TV.setText(top3_music[0]+"\n"+top3_music[1]+"\n"+top3_music[2]+"\n");
+            top3TV.setText( "\n" + "1등 : " + top3_music[0]+"\n"+"2등 : " + top3_music[1]+"\n"+ "3등 : " + top3_music[2]+"\n");
         }
         @Override
         protected String doInBackground(String... params)
