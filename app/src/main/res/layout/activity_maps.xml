@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:elevation="1dp"
-            android:gravity="bottom|center_vertical|center_horizontal"
+            android:gravity="center_vertical|center_horizontal"
             android:text="HotSop에 가보세요! 실시간 구역 랭킹이 나와요!"
             android:textColor="#ffffff" />
 

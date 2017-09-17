@@ -3,22 +3,22 @@
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout"
     android:background="@drawable/completed">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-            <ListView
-                android:id="@+id/detail_listView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </ListView>
-    </RelativeLayout>
     <RelativeLayout
         android:id="@+id/gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/completed2"
         android:visibility="gone"/>
+
+    <SeekBar
+        android:id="@+id/seekMusic"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:visibility="gone"
+        android:layout_marginBottom="50dp"/>
             <LinearLayout
                 android:background="#53dcaa"
                 android:id="@+id/layoutDetail"
@@ -103,10 +103,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1">
-                <SeekBar
-                    android:id="@+id/seekMusic"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
                 </LinearLayout>
             </LinearLayout>
 </FrameLayout>

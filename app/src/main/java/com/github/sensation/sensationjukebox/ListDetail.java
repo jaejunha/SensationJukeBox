@@ -1,5 +1,6 @@
 package com.github.sensation.sensationjukebox;
 
+import android.annotation.TargetApi;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -51,11 +53,10 @@ import okhttp3.Response;
 
 public class ListDetail extends AppCompatActivity implements View.OnTouchListener {
 
-    private ListView listView;
-    private RelativeLayout gone;
-    private ArrayList<StoryItem> storyItemArrayList;
-    private StoryListAdpater storyListAdpater;
+    private FrameLayout layout;
+    private int i=0;
     private Context context;
+    private RelativeLayout gone;
     private Button buttonPlay;
     private LinearLayout layoutDetail;
     private FloatingActionButton fab;
@@ -79,7 +80,7 @@ public class ListDetail extends AppCompatActivity implements View.OnTouchListene
     private static String jsontext = null;
     private int jsoncount = 0;
     static StoryItem saveStoryItem = new StoryItem();
-
+    Uri music3;
     MapsActivity maps;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -87,7 +88,6 @@ public class ListDetail extends AppCompatActivity implements View.OnTouchListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        listView = (ListView) findViewById(R.id.detail_listView);
         this.context = getApplicationContext();
         buttonPlay = (Button) findViewById(R.id.buttonPlay);
         //open_Button = (Button) findViewById(R.id.open_Button);
@@ -96,7 +96,8 @@ public class ListDetail extends AppCompatActivity implements View.OnTouchListene
         storyContent = (TextView) findViewById(R.id.storyContent);
         songTitle = (TextView) findViewById(R.id.songTitle);
         seekBar = (SeekBar) findViewById(R.id.seekMusic);
-        gone = (RelativeLayout) findViewById(R.id.gone);
+        layout = (FrameLayout) findViewById(R.id.layout);
+        gone = (RelativeLayout)findViewById(R.id.gone);
         storysub = new String[100];
         storycontent = new String[100];
         musicname = new String[100];
@@ -104,8 +105,8 @@ public class ListDetail extends AppCompatActivity implements View.OnTouchListene
         location2 = new String[100];
         maps = new MapsActivity();
 
+        layout.setOnTouchListener(this);
         gone.setOnTouchListener(this);
-        listView.setOnTouchListener(this);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -115,7 +116,7 @@ public class ListDetail extends AppCompatActivity implements View.OnTouchListene
         //-------임시로 데이터 만듬---------노래 임의로 때려박고 리스트에 값 추가한 작업.
         Field[] fields = R.raw.class.getFields();
         Uri music1 = null;
-        Uri music3 = null;
+        music3 = null;
         for (int count = 0; count < fields.length; count++) {
             //Log.e("노래", fields[count].getName());
             if (fields[count].getName().toString().contains("music1")) {
@@ -210,8 +211,6 @@ public class ListDetail extends AppCompatActivity implements View.OnTouchListene
             }
         }
 
-        storyItemArrayList = new ArrayList<StoryItem>();
-
         for(int userlist = 0; userlist < jsoncount; userlist++){
             StoryItem storyItem = new StoryItem();
             storyItem.setSongName(String.valueOf(musicname[userlist]));
@@ -222,10 +221,7 @@ public class ListDetail extends AppCompatActivity implements View.OnTouchListene
             } else if (userlist == 0) {
                 storyItem.setUri(music1);
             }
-            storyItemArrayList.add(storyItem);
         }
-        storyListAdpater = new StoryListAdpater(storyItemArrayList);
-        listView.setAdapter(storyListAdpater);
     }
 
     @Override
@@ -343,80 +339,23 @@ public class ListDetail extends AppCompatActivity implements View.OnTouchListene
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         gone.setVisibility(View.VISIBLE);
+        seekBar.setVisibility(View.VISIBLE);
+        i++;
+        if(i>1 && i<3) {
+            //musicService.musicStart();
+            playSong(music3);
+            gone.setBackground(getDrawable(R.drawable.completed3));
+        }
+        else if(i>4) {
+            startActivity(new Intent(this, StoryEdit.class));
+            overridePendingTransition(R.anim.anim_alphain, R.anim.anim_alphaout);
+        }
         return false;
-    }
-
-    public class StoryListAdpater extends BaseAdapter {
-
-        ArrayList<StoryItem> object;
-
-        public StoryListAdpater(ArrayList<StoryItem> object) {
-            super();
-            this.object = object;
-        }
-
-        @Override
-        public int getCount() {
-            return object.size();
-        }
-
-        @Override
-        public StoryItem getItem(int position) {
-            return object.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            final ViewHolder holder;
-            if (convertView == null) {
-                LayoutInflater inflater = LayoutInflater.from(context);
-                convertView = inflater.inflate(R.layout.list_detail, parent, false);
-                holder = new ViewHolder();
-                holder.textMusic = (TextView) convertView.findViewById(R.id.textMusic);
-                holder.textStory = (TextView) convertView.findViewById(R.id.textStory);
-                holder.playButton = (Button) convertView.findViewById(R.id.buttonPlay);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-            StoryItem storyItem = (StoryItem) getItem(position); //포지션 별로 값을 채워 줍니다.
-            holder.textMusic.setText(storyItem.getSongName());
-            holder.textStory.setText(storyItem.getStoryTitle());
-            holder.playButton.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View view) {
-                    layoutDetail.setVisibility(View.VISIBLE);
-                    storyTitle.setText(getItem(position).getStoryTitle());
-                    storyContent.setText(getItem(position).getStoryContent());
-                    songTitle.setText(getItem(position).getSongName());
-                    buttonPlay.setText("II");
-                    layoutDetail.setVisibility(View.VISIBLE);
-                    open_Button.setText(" v ");
-                    isOpen = true;
-                    saveStoryItem.setStoryTitle(getItem(position).getStoryTitle());
-                    saveStoryItem.setSongName(getItem(position).getSongName());
-                    saveStoryItem.setStoryContent(getItem(position).getStoryContent());
-                    saveStoryItem.setUri(getItem(position).getUri());
-                    playSong(getItem(position).getUri());
-                }
-            });
-
-            return convertView;
-        }
-
-        public class ViewHolder {
-            TextView textStory, textMusic;
-            Button playButton;
-        }
     }
 
     class musicThread extends Thread {

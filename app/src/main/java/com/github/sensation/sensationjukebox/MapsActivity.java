@@ -46,6 +46,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationChangeListener,
         GoogleMap.OnMarkerClickListener
 {
@@ -285,10 +291,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (distance(userlatitude, userlongitude, latitude, longitude) <= 50 &&
                 distance(userlatitude, userlongitude, latitude, longitude) >= -50) {
             textcontent.setText("강촌 TOP3 사연");
-            connect("zone1");
+            //connect("zone1");
         } else {
             textcontent.setText("전국 TOP3 사연");
-            connect("zone2");
+            //connect("zone2");
         }
     }
 
