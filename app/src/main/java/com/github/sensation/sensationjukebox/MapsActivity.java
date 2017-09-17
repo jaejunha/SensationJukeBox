@@ -76,6 +76,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+<<<<<<< HEAD
+=======
+
+        RemoteDBManager rdbm = new RemoteDBManager();
+        rdbm.execute("http://45.76.100.46/select_top3.php", "zone", "zone1", "top_rank", "3");
+
+        TextView top3TV = findViewById(R.id.textContent);
+        String []top3_music = new String[3];
+
+        try
+        {
+            while(!rdbm.done);
+            JSONArray jsonArray = new JSONArray(rdbm.getJsonResponse());
+            for(int i = 0; i < jsonArray.length(); i++)
+            {
+                JSONObject jObject = jsonArray.getJSONObject(i);  // JSONObject 추출
+                String musicName = jObject.getString("music_name");
+                top3_music[i] = musicName;
+            }
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
+        top3TV.setText(top3_music[0]+"\n"+top3_music[1]+"\n"+top3_music[2]+"\n");
+>>>>>>> parent of 3fc209d... Fix Map_layout
     }
 
 

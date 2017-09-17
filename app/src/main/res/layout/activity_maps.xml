@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="@string/current_top3_music"
+<<<<<<< HEAD
             android:textAlignment="center"
             android:textColor="#ffffff" />
 
@@ -40,7 +41,17 @@
             android:text="HotSop에 가보세요! 실시간 구역 랭킹이 나와요!"
             android:textColor="#ffffff" />
 
+=======
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+>>>>>>> parent of 3fc209d... Fix Map_layout
     </FrameLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="29dp"
+                android:alpha="0.5"
+                android:background="@drawable/drawable_radius_rectangle" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="29dp"
