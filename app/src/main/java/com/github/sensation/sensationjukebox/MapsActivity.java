@@ -3,36 +3,24 @@ package com.github.sensation.sensationjukebox;
 import android.content.Intent;
 import android.graphics.Color;
 
-import com.github.sensation.sensationjukebox.DBServer.RemoteDBManager;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.StrictMode;
-import android.support.annotation.NonNull;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.location.places.PlaceLikelihood;
-import com.google.android.gms.location.places.PlaceLikelihoodBuffer;
-import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import com.google.android.gms.maps.model.CircleOptions;
-
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -59,7 +47,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private TextView state;
     private TextView textcontent;
     private View view;
-
+    TextView top3TV;
+    String []top3_music;
     public static String location1 = null;
     public static String location2 = null;
 
@@ -77,6 +66,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         textcontent = (TextView)findViewById(R.id.textContent);
 
@@ -112,30 +104,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void connect(String str){
-        RemoteDBManager rdbm = new RemoteDBManager();
-        rdbm.execute("http://45.76.100.46/select_top3.php", "zone", str, "top_rank", "3");
+        top3TV = findViewById(R.id.TopContent);
+        top3_music = new String[3];
 
-        TextView top3TV = findViewById(R.id.TopContent);
-        String []top3_music = new String[3];
-
-        try
-        {
-            while(!rdbm.done);
-            JSONArray jsonArray = new JSONArray(rdbm.getJsonResponse());
-            for(int i = 0; i < jsonArray.length(); i++)
-            {
-                JSONObject jObject = jsonArray.getJSONObject(i);  // JSONObject 추출
-                String musicName = jObject.getString("music_name");
-                top3_music[i] = musicName;
-            }
-        }
-
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-
-        top3TV.setText(top3_music[0]+"\n"+top3_music[1]+"\n"+top3_music[2]+"\n");
+        new RemoteDBManagerAsync().execute("http://45.76.100.46/select_top3.php", "zone", str, "top_rank", "3");
     }
 
 
@@ -291,10 +263,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (distance(userlatitude, userlongitude, latitude, longitude) <= 50 &&
                 distance(userlatitude, userlongitude, latitude, longitude) >= -50) {
             textcontent.setText("강촌 TOP3 사연");
-            //connect("zone1");
+            connect("zone1");
         } else {
             textcontent.setText("전국 TOP3 사연");
-            //connect("zone2");
+            connect("zone2");
         }
     }
 
@@ -336,5 +308,76 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     // 주어진 라디언(radian) 값을 도(degree) 값으로 변환
     private double radtodeg(double rad) {
         return (double) (rad * (double) 180d / Math.PI);
+    }
+
+    class RemoteDBManagerAsync extends AsyncTask<String, Void, String>
+    {
+        private String jsonResponse;
+        public boolean done = false;
+
+        // param[0] : URL
+        // param[i], paranm[i+1] : 키, 값
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try
+            {
+                //while(!rdbm.done);
+                JSONArray jsonArray = new JSONArray(jsonResponse);
+                for(int i = 0; i < jsonArray.length(); i++)
+                {
+                    JSONObject jObject = jsonArray.getJSONObject(i);  // JSONObject 추출
+                    String musicName = jObject.getString("music_name");
+                    top3_music[i] = musicName;
+                }
+            }
+
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+
+            top3TV.setText(top3_music[0]+"\n"+top3_music[1]+"\n"+top3_music[2]+"\n");
+        }
+        @Override
+        protected String doInBackground(String... params)
+        {
+            OkHttpClient client = new OkHttpClient();
+            FormBody.Builder formBodyBuilder = new FormBody.Builder();
+
+            done = false;
+
+            // 키 : 값 add
+            for(int i = 1; i < params.length - 1; i++)
+                formBodyBuilder.add(params[i], params[i + 1]);
+
+            // 쿼리 실행
+            try
+            {
+                RequestBody body = formBodyBuilder.build();
+                Request request = new Request.Builder()
+                        .url(params[0])
+                        .post(body)
+                        .build();
+
+                //jsonResponse = client.newCall(request).execute().body().string();
+
+                Response response = client.newCall(request).execute();
+                jsonResponse =  response.body().string();
+                //done = true;
+                response.body().close();
+            }
+            catch (IOException e)
+            {e.printStackTrace();}
+
+            return null;
+        }
+        public String getJsonResponse()
+        {
+            if(done)
+                return jsonResponse;
+            else
+                return null;
+        }
     }
 }
