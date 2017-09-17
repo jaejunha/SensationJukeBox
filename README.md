@@ -1,5 +1,5 @@
 # 2017년도 오픈해커톤 
-![SensationJukeBox](./app/src/main/res/drawable/s8.jpg)
+![SensationJukeBox](./app/src/main/res/drawable/s8.png)
 
 **Music Communication 어플**
 
